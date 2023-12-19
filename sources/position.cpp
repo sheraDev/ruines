@@ -19,7 +19,7 @@ void position::setPosition(int line,int col)
     d_column = col;
 }
 
-/*position& position::operator=(const position& pos)
+position& position::operator=(const position& pos)
 {
     if (this != &pos)
     {
@@ -27,4 +27,9 @@ void position::setPosition(int line,int col)
         d_column = pos.d_column;
     }
     return *this;
-}*/
+}
+
+bool position::operator==(const position& pos) const
+{
+    return (d_line == pos.d_line) && (d_column == pos.d_column);
+}
