@@ -6,7 +6,6 @@ class blindMonster : public monster
 {
     public:
         blindMonster(const position & pos);
-        //void moveAt(const position & pos) override;
 };
 
 

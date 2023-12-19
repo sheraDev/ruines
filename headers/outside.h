@@ -1,7 +1,6 @@
 #ifndef OUTSIDE_H_INCLUDED
 #define OUTSIDE_H_INCLUDED
 #include "groundElement.h"
-//#include "viewManager.h"
 class viewManager;
 
 class outside : public groundElement

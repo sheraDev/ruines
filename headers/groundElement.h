@@ -1,9 +1,7 @@
 #ifndef GROUNDELEMENT_H_INCLUDED
 #define GROUNDELEMENT_H_INCLUDED
 #include "position.h"
-//#include "viewManager.h"
 class viewManager;
-//CLASSE REPRESENTANT UN ELEMENT DU TERRAIN
 
 
 class groundElement

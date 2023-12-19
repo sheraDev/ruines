@@ -43,24 +43,10 @@ void CLIView::displayOutside(const outside &o) const
 
 
 
-/*
-Affichage : 
--on parcourt les positions avc un for dans un for
--pour chaque position on regarde dans le tableau d'éléments est ce qu'on a
- un element a cette position : si oui on l'affiche
- sinon on affiche un .
-
-*/
 
 void CLIView::displayGround(const ground &g) const
 {
 
-/*
-    for(int i=0;i<g.getElementsTable().size();i++)
-    {
-        auto elem = g.getElementsTable()[i].get();
-        elem->display(*this);
-    }*/
 
     
     position p;

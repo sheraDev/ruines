@@ -7,12 +7,10 @@
 #include "attackManager.h"
 #include "memory"
 
-adventurerAttackManager::adventurerAttackManager(){}//groundElement *monster)://std::unique_ptr<groundElement> monsterptr):
-//d_monster{monster}{}//,d_g{grnd}{}
+adventurerAttackManager::adventurerAttackManager(){}
 
-//a aucun moment on  a besoin du monstre
 
-double adventurerAttackManager::attack(groundElement *elem)//std::unique_ptr<groundElement> elem)
+double adventurerAttackManager::attack(groundElement *elem)
 {   
     //std::cout<<"attaque ! \n";
     
@@ -90,10 +88,4 @@ bool adventurerAttackManager::receiveAttack(groundElement *elem,double force)
     }
 
     return mort;
-
-    /*Quand un aventurier reçoit une attaque d’une force de f points de force, 
-    ->3/4 des pf sont absorbés par son armure 
-    -> l’armure perd 1 point de solidité pour 2 pf absorbés) 
-    -> pr le reste des pf =>l’aventurier perd un point de vie pour un poids de 
-    force absorbé).*/
 }

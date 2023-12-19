@@ -1,7 +1,6 @@
 #ifndef WEAPON_H_INCLUDED
 #define WEAPON_H_INCLUDED
 
-// CLASSE REPRESENTANT UNE ARME (epee et armure)
 
 
 class weapon

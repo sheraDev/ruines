@@ -49,8 +49,6 @@ class ground
         void removeElement(int indice);
         void setSize(int length,int width); 
         const std::vector<std::unique_ptr<groundElement>> & getElementsTable() const;
-        
-        //void display(const viewManager& view) const; 
         void display(std::unique_ptr<viewManager> &view);
 
 
@@ -63,13 +61,9 @@ class ground
                                                 
 
         int nbElmtsPos(const position &p) const;
-       
-        //position getPositionIndice(int indice); //position de la case indice
-
         int getIndiceElmt(const position &p,char type) const; //indice de lelmt de type et position donnee = 1 seule possiblilité
 
-        //position avec un type et un elmt : inutile ?
-        //position getPositionElementType(char type,const std::unique_ptr<groundElement> &e) const;
+        
         
         position getAdventurerPosition() const; //position de laventurier 
 

@@ -21,7 +21,6 @@ class adventurer : public character
         sword getSword() const;
         armory getArmor() const;
         void display(const viewManager& view) const override;
-       // double attack(attackManager &attackManag) override;
         void setSwordSolidity(double sol);
         void setArmorSolidity(double sol);
         void setIsOutTrue();

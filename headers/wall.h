@@ -1,7 +1,6 @@
 #ifndef WALL_H_INCLUDED
 #define WALL_H_INCLUDED
 #include "groundElement.h"
-//#include "viewManager.h"
 class viewManager;
 
 class wall : public groundElement

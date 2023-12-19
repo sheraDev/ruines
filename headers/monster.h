@@ -2,7 +2,6 @@
 #define MONSTER_H_INCLUDED
 #include "character.h"
 #include "groundElement.h"
-//#include "viewManager.h"
 class viewManager;
 class adventurer;
 class ground;

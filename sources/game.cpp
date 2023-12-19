@@ -3,7 +3,6 @@
 #include "groundElement.h"
 #include "CLIView.h"
 #include "adventurerMoveManager.h"
-#include "monsterMoveManager.h"
 #include "character.h"
 #include "smartMonster.h"
 #include "blindMonster.h"
@@ -123,10 +122,7 @@ void game::play()
     g.display(v);
 
 
-/*
-    CLIView v{};
-    std::cout<<"Terrain:\n";
-    g.display(v);*/
+
     
 
     while( partie && !win )

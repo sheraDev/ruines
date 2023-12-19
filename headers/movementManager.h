@@ -7,24 +7,16 @@
 class movementManager 
 {
     public:
-         movementManager(const position&pos); //direction inutile dans le monsterMover
-        //movementManager(const position&pos);
+         movementManager(const position&pos); 
         virtual ~movementManager()=default;
         position getPos() const;
-       // int getDirection() const;
 
         virtual position directionPosition(int direction)=0;
-      //  virtual position possiblePosition(ground &g)=0;
         virtual void move(ground &g,int direction)=0;
 
-        //virtual void move(int direction)=0;
-
-
-    protected:
+  protected:
         position d_position;
-       // int d_direction;
-        //ground d_ground;
-
+       
 };
 
 #endif

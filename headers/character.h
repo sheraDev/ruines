@@ -16,7 +16,6 @@ class character : public groundElement
         virtual ~character()= default;
         double attack(attackManager &attackManag);
         bool receiveAttack(attackManager &attackManag,double force);
-       // virtual void move(const position&p)=0;
         void move(movementManager &movManager,ground &g,int direction=0);
         
         //GETTERS

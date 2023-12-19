@@ -1,10 +1,6 @@
 #ifndef VIEWMANAGER_H_INCLUDED
 #define VIEWMANAGER_H_INCLUDED
-/*#include "monster.h"
-#include "wall.h"
-#include "adventurer.h"
-#include "ground.h"
-#include "amulet.h"*/
+
 
 class monster;
 class wall;

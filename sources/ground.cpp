@@ -39,8 +39,6 @@ const std::vector<std::unique_ptr<groundElement>> &ground::getElementsTable() co
     return d_groundElementsTab;
 }
 
-//B= monstre aveugle, A= amulet, P=adventurer, S = monstre voyant , W= mur, E=empty
-
 char  ground::typeOf(int indice) const
 {
    
@@ -90,12 +88,8 @@ position ground::posOf(int indice) const
 }
 
 
-
-//RECHERCHE LA POSITION DE L AVENTURIER  
-//UPDATED OK
 position  ground::getAdventurerPosition() const  
 {
-   //UPDATE
     for(int i=0;i<d_groundElementsTab.size();i++)
     {
         groundElement* element = d_groundElementsTab[i].get();
@@ -111,7 +105,6 @@ position  ground::getAdventurerPosition() const
 }
 
 
-//OK
 int ground::getIndiceAdventurer() const
 {
     for(int i=0;i<d_groundElementsTab.size();i++)
@@ -124,8 +117,6 @@ int ground::getIndiceAdventurer() const
     return -1;
 }
 
-//OK
-//indice de l'element : pk pas lui passer lelement direct a voir
 int ground::getIndiceElmt(const position &p,char type) const
 {
     for(int i=0;i<d_groundElementsTab.size();i++)
@@ -140,90 +131,24 @@ int ground::getIndiceElmt(const position &p,char type) const
 
 
 
-//OK
+
 void ground::setSize(int length,int width) 
 {
-    d_nbColumns = length;  //longueur
-    d_nbLines = width;   //largeur   
+    d_nbColumns = length;  
+    d_nbLines = width;     
 } 
 
 
-
-
-//updated ok
 void ground::addElementToGround(std::unique_ptr<groundElement> element)
 {
     d_groundElementsTab.push_back(std::move(element));
 }
 
 
-//update ok
 
 void ground::removeElement(int indice)
 {
     d_groundElementsTab.erase(d_groundElementsTab.begin() + indice);
-
-  //SUPPRIMER L ELEMENT A LA POSITION P DU TERRAIN
-
-    /*if(d_groundElementsTab[p.getLine()][p.getColumn()].get() !=nullptr)
-    {
-        d_groundElementsTab[p.getLine()][p.getColumn()].reset();
-    }*/
-
-    //UPDATE
-
-    //Recherche de l element correspondant à la pos ET au type (un seul possible)
-    /*
-    for(int i=0;i<d_groundElementsTab.size();i++)
-    {
-        char typeElmt = typeOf(i);
-        if( typeElmt==type) // MTNT ON SAIS QUE LE TYPE DE LA CASE EST EGAL A TYPE
-        {            
-            groundElement* element = d_groundElementsTab[i].get();
-            position pos;
-
-            if(type=='B')
-            {
-                blindMonster* bm = dynamic_cast<blindMonster*>(element);
-                pos= {bm->getPosition()};
-            }
-            else if(type=='A')
-            {
-                amulet* am = dynamic_cast<amulet*>(element);
-                pos= {am->getPosition()};
-            }
-            else if(type=='P')
-            {
-                adventurer* adv = dynamic_cast<adventurer*>(element);
-                pos= {adv->getPosition()};
-                
-            }
-            else if(type=='S')
-            {
-                smartMonster* s = dynamic_cast<smartMonster*>(element);
-                pos= {s->getPosition()};
-
-            }
-            else if(type=='W')
-            {
-                wall* w = dynamic_cast<wall*>(element);
-                pos= {w->getPosition()};
-            }
-            
-            //jai mtnt la pos
-
-            if(pos.getColumn()==p.getColumn() && pos.getLine()==pos.getLine())
-            {
-                //supression de l element indice i = degager du tableau
-                d_groundElementsTab.erase(d_groundElementsTab.begin() + i);
-
-                // rien a fair avc les *
-            }
-
-            
-            
-        }
-    }*/
 }
 
 
@@ -236,8 +161,8 @@ void ground::buildGround()   //creer un terrain manuellement
 
     int c,li;
     do{
-        cout<<"Enter a number of columns : \n"; cin>>c;  //longueur
-        cout<<"Enter a numer of lines : "; cin>>li;  //largeur
+        cout<<"Enter a number of columns : \n"; cin>>c;  
+        cout<<"Enter a numer of lines : "; cin>>li;  
     }
     while(c<=0 || li<=0);
 
@@ -299,7 +224,7 @@ void ground::buildGround()   //creer un terrain manuellement
     }
 }
 
-void ground::importGround(std::istream &ist)  //importer un terrain
+void ground::importGround(std::istream &ist)  
 {
     
     int nbcol, nbl;
@@ -373,7 +298,7 @@ void ground::importGround(std::istream &ist)  //importer un terrain
         position p;
         int nbElmt,indice;
         char t;
-        std::ofstream fichier("Terrain");
+        std::ofstream fichier("Terrain.txt");
         fichier<<d_nbLines<<" "<<d_nbColumns<<"\n";
 
         for(int i=0;i<d_nbLines;i++)
@@ -382,100 +307,18 @@ void ground::importGround(std::istream &ist)  //importer un terrain
             {
                 p={i,j};
                 indice = indicePos(p);
-                //auto elem = getElementsTable()[indice].get();
                 t = typeOf(indice);
 
                 fichier<<t<<" ";
 
-                /*if(t=='E')
-                {
-                    fichier<<'E';
-    
-                }
-                else if(t=='P')
-                {
-                    fichier<<'P';
-                }
-                else if(t=='A')
-                {
-                    fichier<<'A';
-
-                }
-                else if(t=='B')
-                {
-                    fichier<<'B';
-                }
-                else if(t=='S')
-                {
-                    fichier<<'S';
-
-                }
-                else if(t=='W')
-                {
-                    fichier<<'W';
-
-                }
-                else if(t=='O')
-                {
-                    fichier<<'O';
-
-                }
-                else if(t=='D')
-                {
-
-                }*/
 
 
             }
             fichier<<"\n";
-
-                
-        
         }
     }
     
 
-
-
-
-
-//update nouv fonction
-//1 elme stocke sa pos, donc on me passe un elem et son type et je renvois
-// sa pos d_pos
-/*
-position ground::getPositionElementType(char type,const std::unique_ptr<groundElement> &e) const
-{
-     position pos;
-
-    if(type=='B')
-    {
-        blindMonster* bm = dynamic_cast<blindMonster*>(e.get());
-        pos= {bm->getPosition()};
-    }
-    else if(type=='A')
-    {
-        amulet* am = dynamic_cast<amulet*>(e.get());
-        pos= {am->getPosition()};
-    }
-    else if(type=='P')
-    {
-        adventurer* adv = dynamic_cast<adventurer*>(e.get());
-        pos= {adv->getPosition()};
-        
-    }
-    else if(type=='S')
-    {
-        smartMonster* s = dynamic_cast<smartMonster*>(e.get());
-        pos= {s->getPosition()};
-
-    }
-    else if(type=='W')
-    {
-        wall* w = dynamic_cast<wall*>(e.get());
-        pos= {w->getPosition()};
-    }
-    return pos;
-}*/
 
 
 //tab d'indices des elemts qui ont la position p
@@ -484,7 +327,6 @@ std::vector<int> ground::getIndicePos(const position &p) const
     int indice=0;
     position pos;
     std::vector<int>T;
-    //T.reserve(d_groundElementsTab.size());
 
     for(const auto &elem : d_groundElementsTab)
     {

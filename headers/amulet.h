@@ -1,7 +1,6 @@
 #ifndef AMULET_H_INCLUDED
 #define AMULET_H_INCLUDED
 #include "groundElement.h"
-//#include "viewManager.h"
 class viewManager;
 
 class amulet : public groundElement

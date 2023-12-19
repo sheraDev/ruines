@@ -9,21 +9,10 @@ bool adventurer::hasAmulet() const
     return d_hasAmulet;
 }
 
-
-/*
-void adventurer::move(movementManager &movManager,ground &g)
-{
-    movManager.move(g);
-}*/
-
 void adventurer::display(const viewManager& view) const 
 {
-    //afficher via l afficheur passé en param
     view.displayAdventurer(*this);
 }
-
-
-
 
 void adventurer::setAmuletTrue()
 {
@@ -40,17 +29,6 @@ armory adventurer::getArmor() const
     return d_armor;
 }
 
-/*
-bool adventurer::receiveAttack(attackManager &attackManag,double force)
-{
-    bool mort = attackManag.receiveAttack(this,force);
-    return mort;
-}
-double adventurer::attack(attackManager &attackManag)
-{
-    double force = attackManag.attack(this);
-    return force;
-}*/
 
 void adventurer::setSwordSolidity(double sol)
 {
