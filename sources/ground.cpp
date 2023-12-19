@@ -10,8 +10,12 @@
 #include "adventurer.h"
 #include "wall.h"
 #include "amulet.h"
+#include "outside.h"
+#include "door.h"
 
 #include "viewManager.h"
+#include <fstream>
+
 
 
 using std::cout;
@@ -30,19 +34,24 @@ int ground::getNbLines() const
     return d_nbLines;
 }
 
-const std::vector<std::vector<std::unique_ptr<groundElement>>> &ground::getElementsTable() const
+const std::vector<std::unique_ptr<groundElement>> &ground::getElementsTable() const
 {
     return d_groundElementsTab;
 }
 
 //B= monstre aveugle, A= amulet, P=adventurer, S = monstre voyant , W= mur, E=empty
-char  ground::typeOf(const position &pos) const
+
+char  ground::typeOf(int indice) const
 {
    
-    auto e= d_groundElementsTab[pos.getLine()][pos.getColumn()].get();
+    auto e= d_groundElementsTab[indice].get();
     char t;
 
-    if(dynamic_cast<blindMonster*>(e))
+    if(indice==-1)  
+    {
+        t= 'E';
+    }
+    else if(dynamic_cast<blindMonster*>(e))
     {
         t= 'B';
     }
@@ -62,74 +71,161 @@ char  ground::typeOf(const position &pos) const
     {
         t= 'W';
     }
-    else if(e==nullptr)
+    else if(dynamic_cast<door*>(e))
     {
-        t= 'E';
+        t='D';
+    }
+    else if(dynamic_cast<outside*>(e))
+    {
+        t='O';
     }
     return t;
 
 }
 
-
-//RECHERCHE LA POSITION DE L AVENTURIER
-position  ground::getAdventurerPosition() const
+position ground::posOf(int indice) const
 {
-    for(int i=0;i<getNbLines();i++)
+    auto e= d_groundElementsTab[indice].get();
+    return e->getPosition();
+}
+
+
+
+//RECHERCHE LA POSITION DE L AVENTURIER  
+//UPDATED OK
+position  ground::getAdventurerPosition() const  
+{
+   //UPDATE
+    for(int i=0;i<d_groundElementsTab.size();i++)
     {
-        for(int j=0;j<getNbColumns();j++)
-        {
-            if(d_groundElementsTab[i][j].get()!=nullptr && dynamic_cast<adventurer*>(d_groundElementsTab[i][j].get()))
-            {
-                return position{i,j};
-            }
-        }
+        groundElement* element = d_groundElementsTab[i].get();
+        adventurer* adv = dynamic_cast<adventurer*>(element);
+
+         if (adv) {
+            position padv{ adv->getPosition()};
+            return padv;
+         }
     }
+
     return {-1,-1};
 }
 
 
+//OK
+int ground::getIndiceAdventurer() const
+{
+    for(int i=0;i<d_groundElementsTab.size();i++)
+    {
+        if(typeOf(i)=='P')
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+//OK
+//indice de l'element : pk pas lui passer lelement direct a voir
+int ground::getIndiceElmt(const position &p,char type) const
+{
+    for(int i=0;i<d_groundElementsTab.size();i++)
+    {
+        if(typeOf(i)==type && posOf(i).getColumn()==p.getColumn() && posOf(i).getLine()==p.getLine())
+        {
+            return i;
+        }
+    }
+    return 0;
+}
 
 
+
+//OK
 void ground::setSize(int length,int width) 
 {
     d_nbColumns = length;  //longueur
     d_nbLines = width;   //largeur   
-
-    d_groundElementsTab.resize(width);
-    for(int i=0;i<d_nbLines;i++)
-    {
-        d_groundElementsTab[i].resize(d_nbColumns);
-    }
-
 } 
 
 
-//MET DANS OLD POS CE QUE CONTIENT NEW POS
-void ground::putElement(const position &oldPos,const position&newPos)
+
+
+//updated ok
+void ground::addElementToGround(std::unique_ptr<groundElement> element)
 {
-    int oldLine = oldPos.getLine(),oldCol = oldPos.getColumn();
-    int newLine = newPos.getLine() , newCol = newPos.getColumn();
-    
-    d_groundElementsTab[oldLine][oldCol] = std::move( d_groundElementsTab[newLine][newCol]);
+    d_groundElementsTab.push_back(std::move(element));
 }
 
 
+//update ok
 
-void ground::addElementToGround(const position &p,std::unique_ptr<groundElement> element)
+void ground::removeElement(int indice)
 {
-    //AJOUTER L ELEMENT PASSE EN PARAMETRE AU TERRAIN A LA POSITION P
-    d_groundElementsTab[p.getLine()][p.getColumn()] = std::move(element); 
-}
+    d_groundElementsTab.erase(d_groundElementsTab.begin() + indice);
 
-void ground::removeElement(const position &p)
-{
-    //SUPPRIMER L ELEMENT A LA POSITION P DU TERRAIN
+  //SUPPRIMER L ELEMENT A LA POSITION P DU TERRAIN
 
-    if(d_groundElementsTab[p.getLine()][p.getColumn()].get() !=nullptr)
+    /*if(d_groundElementsTab[p.getLine()][p.getColumn()].get() !=nullptr)
     {
         d_groundElementsTab[p.getLine()][p.getColumn()].reset();
-    }
+    }*/
+
+    //UPDATE
+
+    //Recherche de l element correspondant à la pos ET au type (un seul possible)
+    /*
+    for(int i=0;i<d_groundElementsTab.size();i++)
+    {
+        char typeElmt = typeOf(i);
+        if( typeElmt==type) // MTNT ON SAIS QUE LE TYPE DE LA CASE EST EGAL A TYPE
+        {            
+            groundElement* element = d_groundElementsTab[i].get();
+            position pos;
+
+            if(type=='B')
+            {
+                blindMonster* bm = dynamic_cast<blindMonster*>(element);
+                pos= {bm->getPosition()};
+            }
+            else if(type=='A')
+            {
+                amulet* am = dynamic_cast<amulet*>(element);
+                pos= {am->getPosition()};
+            }
+            else if(type=='P')
+            {
+                adventurer* adv = dynamic_cast<adventurer*>(element);
+                pos= {adv->getPosition()};
+                
+            }
+            else if(type=='S')
+            {
+                smartMonster* s = dynamic_cast<smartMonster*>(element);
+                pos= {s->getPosition()};
+
+            }
+            else if(type=='W')
+            {
+                wall* w = dynamic_cast<wall*>(element);
+                pos= {w->getPosition()};
+            }
+            
+            //jai mtnt la pos
+
+            if(pos.getColumn()==p.getColumn() && pos.getLine()==pos.getLine())
+            {
+                //supression de l element indice i = degager du tableau
+                d_groundElementsTab.erase(d_groundElementsTab.begin() + i);
+
+                // rien a fair avc les *
+            }
+
+            
+            
+        }
+    }*/
 }
+
 
 
 
@@ -151,7 +247,7 @@ void ground::buildGround()   //creer un terrain manuellement
     char l;
     setSize(d_nbColumns,d_nbLines);
     
-    cout<<"\n Code :\nS= a smart monster \nB = a blind monster \nW= a wall \nE= empty case\nA= Amulet \nP=Player\n";
+    cout<<"\n Code :\nS= a smart monster \nB = a blind monster \nW= a wall \nE= empty case\nA= Amulet\nD = door\nO = Outside\nP=Player\n";
 
     for(int i=0; i<d_nbLines;i++) 
     {
@@ -160,55 +256,284 @@ void ground::buildGround()   //creer un terrain manuellement
             do{
                 cout<<"Enter a caracter for the position "<<i<<","<<j<<":";
                 cin >>l;
-            }while (!(l=='S' || l=='B' || l=='W'|| l=='E'||l=='A'|| l=='P'));
+            }while (!(l=='S' || l=='B' || l=='W'|| l=='E'||l=='A'|| l=='P' || l=='D'||l=='O'));
 
             position pos{i,j};
-            
+
             if(l=='S') //Monstre voyant a la case [i][j]
             {
                 auto p = std::make_unique<smartMonster>(pos);
-                addElementToGround(pos,std::move(p));
+                addElementToGround(std::move(p));
             }
             else if(l=='B') //Monstre aveugle à la case [i][j]
             {
                 auto p = std::make_unique<blindMonster>(pos);
-                addElementToGround(pos,std::move(p));
+                addElementToGround(std::move(p));
             }
             else if(l=='W') //Mur a la case [i][j]
             {
                 auto p = std::make_unique<wall>(pos);
-                addElementToGround(pos,std::move(p));
+                addElementToGround(std::move(p));
             }
             else if(l=='A') //Amulette à la case [i][j]
             {
                 auto p = std::make_unique<amulet>(pos);
-                addElementToGround(pos,std::move(p));            
+                addElementToGround(std::move(p));            
             }
             else if(l=='P') //Personnage
             {
                 auto p = std::make_unique<adventurer>(pos);
-                addElementToGround(pos,std::move(p));
+                addElementToGround(std::move(p));
+            }
+            else if(l=='D') //Porte
+            {
+                auto p = std::make_unique<door>(pos);
+                addElementToGround(std::move(p));
+            }
+            else if(l=='O')
+            {
+                auto p = std::make_unique<outside>(pos);
+                addElementToGround(std::move(p));
             }
         }
     }
 }
 
-/*void ground::importGround(const string &filename)  //importer un terrain
+void ground::importGround(std::istream &ist)  //importer un terrain
 {
-    std::ifstream ifs(filename);
-    if (!ifs.is_open()) 
-    {
-       cout << "A problem has occurred.\n";
-       return;
+    
+    int nbcol, nbl;
+    char elem;
+
+    ist>>nbl>>nbcol;
+    
+
+        int cptl=0; 
+        int cptc=0;
+        setSize(nbl,nbcol);
+
+        while(!ist.eof() && cptl<d_nbLines && cptc<d_nbColumns)
+        {
+            position pos{cptl,cptc};
+            ist>>elem;
+
+            if(elem=='S') //Monstre voyant a la case [i][j]
+            {
+                auto p = std::make_unique<smartMonster>(pos);
+                addElementToGround(std::move(p));
+            }
+            else if(elem=='B') //Monstre aveugle à la case [i][j]
+            {
+                auto p = std::make_unique<blindMonster>(pos);
+                addElementToGround(std::move(p));
+            }
+            else if(elem=='W') //Mur a la case [i][j]
+            {
+                auto p = std::make_unique<wall>(pos);
+                addElementToGround(std::move(p));
+            }
+            else if(elem=='A') //Amulette à la case [i][j]
+            {
+                auto p = std::make_unique<amulet>(pos);
+                addElementToGround(std::move(p));  
+          
+            }
+            else if(elem=='P') //Personnage
+            {
+                auto p = std::make_unique<adventurer>(pos);
+                addElementToGround(std::move(p));
+
+            }
+            else if(elem=='D') //Porte
+            {
+                auto p = std::make_unique<door>(pos);
+                addElementToGround(std::move(p));
+            }
+            else if(elem=='O') //Dehors
+            {
+                auto p = std::make_unique<outside>(pos);
+                addElementToGround(std::move(p));
+            }
+
+            cptc++;
+
+            if(cptc==nbcol)
+            {
+                cptc=0;
+                cptl++;
+            }
+
+        }
+
+
     }
+
+    void ground::exportGround()
+    {
+        position p;
+        int nbElmt,indice;
+        char t;
+        std::ofstream fichier("Terrain");
+        fichier<<d_nbLines<<" "<<d_nbColumns<<"\n";
+
+        for(int i=0;i<d_nbLines;i++)
+        {
+            for(int j=0; j<d_nbColumns;j++)
+            {
+                p={i,j};
+                indice = indicePos(p);
+                //auto elem = getElementsTable()[indice].get();
+                t = typeOf(indice);
+
+                fichier<<t<<" ";
+
+                /*if(t=='E')
+                {
+                    fichier<<'E';
+    
+                }
+                else if(t=='P')
+                {
+                    fichier<<'P';
+                }
+                else if(t=='A')
+                {
+                    fichier<<'A';
+
+                }
+                else if(t=='B')
+                {
+                    fichier<<'B';
+                }
+                else if(t=='S')
+                {
+                    fichier<<'S';
+
+                }
+                else if(t=='W')
+                {
+                    fichier<<'W';
+
+                }
+                else if(t=='O')
+                {
+                    fichier<<'O';
+
+                }
+                else if(t=='D')
+                {
+
+                }*/
+
+
+            }
+            fichier<<"\n";
+
+                
+        
+        }
+    }
+    
+
+
+
+
+
+//update nouv fonction
+//1 elme stocke sa pos, donc on me passe un elem et son type et je renvois
+// sa pos d_pos
+/*
+position ground::getPositionElementType(char type,const std::unique_ptr<groundElement> &e) const
+{
+     position pos;
+
+    if(type=='B')
+    {
+        blindMonster* bm = dynamic_cast<blindMonster*>(e.get());
+        pos= {bm->getPosition()};
+    }
+    else if(type=='A')
+    {
+        amulet* am = dynamic_cast<amulet*>(e.get());
+        pos= {am->getPosition()};
+    }
+    else if(type=='P')
+    {
+        adventurer* adv = dynamic_cast<adventurer*>(e.get());
+        pos= {adv->getPosition()};
+        
+    }
+    else if(type=='S')
+    {
+        smartMonster* s = dynamic_cast<smartMonster*>(e.get());
+        pos= {s->getPosition()};
+
+    }
+    else if(type=='W')
+    {
+        wall* w = dynamic_cast<wall*>(e.get());
+        pos= {w->getPosition()};
+    }
+    return pos;
 }*/
 
 
-void ground::display(const viewManager& view) const
+//tab d'indices des elemts qui ont la position p
+std::vector<int> ground::getIndicePos(const position &p) const
 {
-    view.displayGround(*this);
+    int indice=0;
+    position pos;
+    std::vector<int>T;
+    //T.reserve(d_groundElementsTab.size());
+
+    for(const auto &elem : d_groundElementsTab)
+    {
+        pos = elem->getPosition();
+
+        if( (pos.getColumn()==p.getColumn()) && (pos.getLine()==p.getLine()))
+        {
+            T.push_back(indice);
+        }
+
+        indice++;
+    }
+    
+    return T;
 }
 
+//A UTILISER SEULEMENT SI ON EST SUR QU'IL YA AU PLUS UN SEUL ELMT A LA POS P
+int ground::indicePos(const position &p) const
+{
+    int indice=0;
+    position pos;
+   
+    for(const auto &elem : d_groundElementsTab)
+    {
+        pos = elem->getPosition();
+
+        if( pos.getColumn()==p.getColumn() && pos.getLine()==p.getLine())
+        {
+            return indice;
+        }
+
+        indice++;
+    }
+    return -1; //Si personne dans le tableau nest a cette pos
+
+}
+
+
+int ground::nbElmtsPos(const position &p) const
+{
+    std::vector<int>elm= getIndicePos(p);
+    return elm.size();
+}
+
+
+void ground::display(std::unique_ptr<viewManager> &view) 
+{
+    view->displayGround(*this);
+}
 
 
 

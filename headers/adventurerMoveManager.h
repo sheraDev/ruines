@@ -6,10 +6,12 @@ class ground;
 class adventurerMoveManager : public movementManager
 {
     public:
-        adventurerMoveManager(const position& p, int direction);
-        void move(ground &g) override;
+        adventurerMoveManager(const position&pos);//const position& p, int direction);
+        void move(ground &g,int direction) override;
+       //void move(int direction) override;
         position directionPosition(int direction) override;
 
+    
 
 
 };

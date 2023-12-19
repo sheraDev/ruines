@@ -10,9 +10,10 @@ class blindMonsterMoveManager : public movementManager
 {
     public:
         blindMonsterMoveManager(const position &p);
-        void move(ground &g) override;
         position directionPosition(int direction) override;
         position possiblePosition(ground &g);
+        void move(ground &g,int direction=0) override;//ground &g) override;
+
 
 };
 

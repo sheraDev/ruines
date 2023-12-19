@@ -1,8 +1,4 @@
 #include "armory.h"
 
-armory::armory(){}
+armory::armory(double solidite):weapon{solidite}{}
 
-void armory::use()
-{
-    //L ARMURE RECOIT UNE ATTAQUE
-}

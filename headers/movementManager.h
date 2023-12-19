@@ -2,24 +2,28 @@
 #define MOVEMENTMANAGER_H_INCLUDED
 #include "position.h"
 #include "vector"
-class ground;
-
+//class ground;
+#include "ground.h"
 class movementManager 
 {
     public:
-        movementManager(const position&pos, int direction=0); //direction inutile dans le monsterMover
+         movementManager(const position&pos); //direction inutile dans le monsterMover
+        //movementManager(const position&pos);
         virtual ~movementManager()=default;
         position getPos() const;
-        int getDirection() const;
+       // int getDirection() const;
 
         virtual position directionPosition(int direction)=0;
-        virtual void move(ground &g)=0;
+      //  virtual position possiblePosition(ground &g)=0;
+        virtual void move(ground &g,int direction)=0;
+
+        //virtual void move(int direction)=0;
 
 
-
-    private:
+    protected:
         position d_position;
-        int d_direction;
+       // int d_direction;
+        //ground d_ground;
 
 };
 

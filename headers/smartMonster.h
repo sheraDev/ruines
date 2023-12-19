@@ -6,7 +6,7 @@ class smartMonster : public monster
 {
     public:
         smartMonster(const position& pos);
-        void moveAt(const position &pos) override;
+       // void moveAt(const position &pos) override;
 
 };
 

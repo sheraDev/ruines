@@ -12,3 +12,19 @@ int position::getLine() const
 {
     return d_line;
 }
+
+void position::setPosition(int line,int col)
+{
+    d_line = line;
+    d_column = col;
+}
+
+/*position& position::operator=(const position& pos)
+{
+    if (this != &pos)
+    {
+        d_line = pos.d_line;
+        d_column = pos.d_column;
+    }
+    return *this;
+}*/

@@ -1,17 +1,24 @@
 #include "monster.h"
 #include "viewManager.h"
+#include <iostream>
+#include "attackManager.h"
+#include "ground.h"
         
-monster::monster(const position &pos) : character{pos} {}
+monster::monster(const position &pos, double hability) : character{pos},d_hability{hability} {}
 
-void monster::attack()
+bool monster::isAtOneCaseAdv(ground &g)
 {
-    //LANCE UNE ATTAQUE : APPELLE LE GESTIONNAIRE D ATTAQUE
+    int lineAdv = g.getAdventurerPosition().getLine();
+    int colAdv = g.getAdventurerPosition().getColumn();
+    int lineMonster = getPosition().getLine();
+    int colMonster = getPosition().getColumn();
+
+    int difLine=std::abs(lineMonster-lineAdv);
+    int difCol =std::abs(colMonster-colAdv);
+   
+    return difLine<=1 && difCol<=1;
 }
 
-void monster::receiveAttack()
-{
-    //RECOIT UNE ATTAQUE : APPELLE LE GESTIONNAIRE D ATTAQUE
-}
 
 double monster::getHability() const
 {
@@ -23,3 +30,16 @@ void monster::display(const viewManager& view) const
     //APPEL LAFFICHEUR QUI LAFFICHE (passer lafficheur en parametre)
     view.displayMonster(*this);
 }
+
+/*
+double monster::attack(attackManager &attackManag)
+{
+    double force = attackManag.attack(this);
+    return force;
+}
+
+bool monster::receiveAttack(attackManager &attackManag,double force)
+{
+    bool mort = attackManag.receiveAttack(this,force);
+    return mort;
+}*/

@@ -8,10 +8,11 @@ class weapon
 {
     public:
         virtual ~weapon()=default;
-        virtual void use()=0;
-        int getSolidity() const;
+        weapon(double solidite);
+        double getSolidity() const;
+        void setSolidity(double nouvforce);
     private:
-        int d_solidity;
+        double d_solidity;
 
 };
 

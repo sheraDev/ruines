@@ -13,6 +13,9 @@ class CLIView : public viewManager
         void displayWall(const wall &w) const override;
         void displayAmulet(const amulet &a) const override;
         void displayMonster(const monster &m) const override;
+        void displayDoor(const door &d) const override;
+        void displayOutside(const outside &o) const override;
+
 };
 
 

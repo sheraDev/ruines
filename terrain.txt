@@ -1,0 +1,4 @@
+3 3
+P A S
+E E E
+S W O

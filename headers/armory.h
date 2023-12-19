@@ -5,8 +5,8 @@
 class armory : public weapon
 {
     public:
-        armory();
-        void use() override;
+        armory(double solidite);
+        
 };
 
 
