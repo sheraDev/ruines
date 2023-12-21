@@ -100,7 +100,7 @@ position blindMonsterMoveManager::possiblePosition(ground &g)
 void blindMonsterMoveManager::move(ground &g, int direction)
 {
     position nouvPos{possiblePosition(g)};
-    
+   
     
     if((nouvPos.getColumn()<g.getNbColumns() && nouvPos.getColumn()>=0 && nouvPos.getLine()<g.getNbLines()&& nouvPos.getLine()>=0)) 
     {
@@ -138,7 +138,7 @@ void blindMonsterMoveManager::move(ground &g, int direction)
                 }
                 else if((t=='P' && g.nbElmtsPos(nouvPos)<2 )||(nouvPos.getLine()== getPos().getLine() && nouvPos.getColumn()==getPos().getColumn())) //AVENTURIER => LE MONSTRE y va + L ATTAQUE
                 {
-                    std::cout<<"dans le bM move manager jv attaquer\n";
+                    //std::cout<<"dans le bM move manager jv attaquer\n";
                     monster->changePosition(nouvPos);
                     //APPELER LE GESTIONNAIRE D ATTAQUE
 

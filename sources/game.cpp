@@ -14,6 +14,9 @@
 #include <iostream>
 #include <istream>
 #include <fstream>
+#include <cstdlib>
+
+
 
 
 game::game(){}
@@ -120,7 +123,8 @@ void game::play()
 
     ground g;
     this->chargerGround(g);
-    g.display(v);
+    //g.display(v);
+    system("clear");
 
 
 
@@ -128,8 +132,24 @@ void game::play()
 
     while( partie && !win )
     {
+       // std::cout<<"\033[H\033[J"<<std::flush;
+
+       //   system("clear");
+
+        std::vector<std::vector<int>> tabInfosMonster;
+
+        //0 : position . d_x
+        //1 position.d_y
+        //1 : info
+        //2 : type
+        //3 PV
+        //4 pf
+        //5 pourcentage dhabilité
+    
+
         std::cout<<"-------------- Tour n°"<<tour<<"------------------\n";
 
+        g.display(v);
         int indiceAdv = g.getIndiceAdventurer();
         auto adv= dynamic_cast<adventurer*>(g.getElementsTable()[indiceAdv].get());
 
@@ -210,6 +230,8 @@ void game::play()
 
         
 
+        system("clear");
+
         //LES MONSTRES SE DEPLACENT
         for(int i=0;i<g.getElementsTable().size();i++)
         {   
@@ -226,8 +248,19 @@ void game::play()
                 /*std::cout<<"Déplacement d'un monstre : \n";
                 g.display(v);*/
                 if(monster->isAtOneCaseAdv(g))
-                {
-                    afficherInfosMonstres(monster,'S');
+                {   
+                    //Infos du monstre
+                    std::vector<int>tabInfo;
+                    tabInfo.reserve(6);
+                    tabInfo.push_back(monster->getPosition().getLine());
+                    tabInfo.push_back(monster->getPosition().getColumn());
+                    tabInfo.push_back('S');
+                    tabInfo.push_back(monster->lifePoints());
+                    tabInfo.push_back(monster->forcePoints());
+                    tabInfo.push_back(monster->getHability());
+
+                    //Rajouter dans le tab des monstres
+                    tabInfosMonster.push_back(tabInfo);
                 }
     
             }
@@ -245,7 +278,19 @@ void game::play()
                 g.display(v);*/
                 if(monster->isAtOneCaseAdv(g))
                 {
-                    afficherInfosMonstres(monster,'B');
+                    //afficherInfosMonstres(monster,'B');
+                    //Infos du monstre
+                    std::vector<int>tabInfo;
+                    tabInfo.reserve(6);
+                    tabInfo.push_back(monster->getPosition().getLine());
+                    tabInfo.push_back(monster->getPosition().getColumn());
+                    tabInfo.push_back('B');
+                    tabInfo.push_back(monster->lifePoints());
+                    tabInfo.push_back(monster->forcePoints());
+                    tabInfo.push_back(monster->getHability());
+
+                    //Rajouter dans le tab des monstres
+                    tabInfosMonster.push_back(tabInfo);
 
                 }
             }
@@ -257,20 +302,56 @@ void game::play()
             g.display(v);
 
 
-            //AFFICHAGE DES POINTS DE L'ADV
-
             
-
-
             if(adv->lifePoints()>0)
             {
-                std::cout<<"----------Fin du tour "<<tour<<"----------\n";
-                std::cout<<"Voici vos informations : \n";
-                std::cout<<"Points de vie :"<<  adv->lifePoints() <<"\n";
-                std::cout<<"Points de solidité de l'épée :"<<adv->getSword().getSolidity()<<"\n";
-                std::cout<<"Points de solidité de l'armure :"<<adv->getArmor().getSolidity()<<"\n";
-                std::cout<<"Montant présent dans la bourse :"<<adv->getBourse()<<"\n";
-                std::cout<<"Présence de l'amulet : "; adv->hasAmulet()?std::cout<<"Oui\n":std::cout<<"Non\n";
+
+
+                std::cout<<"----------Fin du tour "<<tour<<"----------\n\n";
+
+                //AFFICHAGE DES INFOS DES MONSTRES
+                std::cout<<"Infos des monstres  : \n";
+
+                std::cout<<" +--------------------------------------------------------------------------+\n";
+                std::cout<<" | Ligne  |  Colonne   |    Type     |   PV       |     PF       | Hability |\n";
+                std::cout<<" +--------------------------------------------------------------------------+\n";
+
+                for(int i=0;i<tabInfosMonster.size();i++) //parcours des monstres
+                {
+                    std::cout<<" |    ";
+                    for(int j=0;j<tabInfosMonster[i].size();j++)
+                    {
+                        if(j==2)
+                        {
+                            std::cout<<(char)tabInfosMonster[i][j]<<"         ";
+                        }
+                        else 
+                            std::cout<<tabInfosMonster[i][j]<<"           ";
+                    }
+                    std::cout<<"\b\b\b\b\b|\n";
+                }
+                std::cout<<" +--------------------------------------------------------------------------+\n";
+
+
+
+            //AFFICHAGE DES POINTS DE L'ADV
+
+                std::cout<<"Infos de l'aventurier  : \n";
+
+                std::cout<<" +----------------------------------------------------------------------------+\n";
+                std::cout<<" | PV  |  Points épée   |    Points armure     |     Bourse      |    Amulet  |\n";
+                std::cout<<" +----------------------------------------------------------------------------+\n";
+               
+                std::cout<<" | ";
+                std::cout<< adv->lifePoints() <<"        ";
+                std::cout<<adv->getSword().getSolidity()<<"                 ";
+                std::cout<<adv->getArmor().getSolidity()<<"                    ";
+                std::cout<<adv->getBourse()<<"         ";
+                adv->hasAmulet()?std::cout<<"     Oui    |":std::cout<<"     Non    |";
+                std::cout<<"\n +----------------------------------------------------------------------------+\n";
+
+                std::cout<<"\n";
+
 
                 tour++;
             }
@@ -279,7 +360,10 @@ void game::play()
                 std::cout<<"Vous etes mort.Fin de la partie \n";
                 partie= false;
             }
+
+
     }
+
 
 }
 
