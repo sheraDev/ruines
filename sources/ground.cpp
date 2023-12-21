@@ -1,4 +1,5 @@
 #include <iostream>
+#include <random>
 
 #include "ground.h"
 #include "position.h"
@@ -12,6 +13,7 @@
 #include "amulet.h"
 #include "outside.h"
 #include "door.h"
+#include "money.h"
 
 #include "viewManager.h"
 #include <fstream>
@@ -24,6 +26,9 @@ using std::ifstream;
 
 
 ground::ground(){}
+
+ground::ground(int nbl,int nbc):d_nbLines{nbl},d_nbColumns{nbc}{}
+
 
 int ground::getNbColumns() const
 {
@@ -38,6 +43,22 @@ const std::vector<std::unique_ptr<groundElement>> &ground::getElementsTable() co
 {
     return d_groundElementsTab;
 }
+
+int ground::getNbTotalElmts() const
+{
+    return d_groundElementsTab.size();
+}
+
+int ground::aleatNumber(int n1,int n2)
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distrib(n1,n2);
+
+    int rdm = distrib(gen);
+    return rdm;
+}
+
 
 char  ground::typeOf(int indice) const
 {
@@ -76,6 +97,10 @@ char  ground::typeOf(int indice) const
     else if(dynamic_cast<outside*>(e))
     {
         t='O';
+    }
+    else if(dynamic_cast<money*>(e))
+    {
+        t='M';
     }
     return t;
 
@@ -172,7 +197,7 @@ void ground::buildGround()   //creer un terrain manuellement
     char l;
     setSize(d_nbColumns,d_nbLines);
     
-    cout<<"\n Code :\nS= a smart monster \nB = a blind monster \nW= a wall \nE= empty case\nA= Amulet\nD = door\nO = Outside\nP=Player\n";
+    cout<<"\n Code :\nS= a smart monster \nB = a blind monster \nW= a wall\nM=money \nE= empty case\nA= Amulet\nD = door\nO = Outside\nP=Player\n";
 
     for(int i=0; i<d_nbLines;i++) 
     {
@@ -181,7 +206,7 @@ void ground::buildGround()   //creer un terrain manuellement
             do{
                 cout<<"Enter a caracter for the position "<<i<<","<<j<<":";
                 cin >>l;
-            }while (!(l=='S' || l=='B' || l=='W'|| l=='E'||l=='A'|| l=='P' || l=='D'||l=='O'));
+            }while (!(l=='S' || l=='B' || l=='W'|| l=='E'||l=='A'|| l=='P' || l=='D'||l=='O' || l=='M'));
 
             position pos{i,j};
 
@@ -218,6 +243,11 @@ void ground::buildGround()   //creer un terrain manuellement
             else if(l=='O')
             {
                 auto p = std::make_unique<outside>(pos);
+                addElementToGround(std::move(p));
+            }
+            else if(l=='M')
+            {
+                auto p = std::make_unique<money>(pos);
                 addElementToGround(std::move(p));
             }
         }
@@ -277,6 +307,12 @@ void ground::importGround(std::istream &ist)
             else if(elem=='O') //Dehors
             {
                 auto p = std::make_unique<outside>(pos);
+                addElementToGround(std::move(p));
+            }
+            else if(elem=='M') //Pieces
+            {
+                int val = aleatNumber(1,20);
+                auto p = std::make_unique<money>(pos,val);
                 addElementToGround(std::move(p));
             }
 

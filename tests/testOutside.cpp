@@ -5,7 +5,7 @@
 #include "position.h"
 #include "outside.h"
 
-TEST_CASE("Test de la classe smart monster")
+TEST_CASE("Test de la classe outside")
 {
 
     SUBCASE("Test constructeur")

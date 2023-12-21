@@ -11,44 +11,45 @@ CLIView::CLIView(){}
 
 void CLIView::displayAdventurer(const adventurer &adv) const
 {
-    cout<<" $ ";
+    cout<<"  $  ";
 }
 
 
 void CLIView::displayWall(const wall &w) const
 {
-    cout<<" - ";
+    cout<<"  -  ";
 }
 
 void CLIView::displayAmulet(const amulet &a) const
 {
-    cout<<" * ";
+    cout<<"  *  ";
 }
 
 void CLIView::displayMonster(const monster &m) const
 {
-    cout<<" M ";
+    cout<<"  M  ";
 }
 
 void CLIView::displayDoor(const door &d) const
 {
-    cout<<" ^ ";
+    cout<<"  ^  ";
 }
 
 void CLIView::displayOutside(const outside &o) const 
 {
-    cout<<" ~ ";
+    cout<<"  ~  ";
 }
 
-
+void CLIView::displayMoney(const money &m) const
+{
+    cout<<"  💰  ";
+}
 
 
 
 void CLIView::displayGround(const ground &g) const
 {
 
-
-    
     position p;
     int nbElmt,indice;
     char t;
@@ -77,24 +78,4 @@ void CLIView::displayGround(const ground &g) const
         }
         cout<<"\n";
     }
-
-
-
-
-    /*for(int i=0;i<g.getNbLines();i++)
-    {
-        for(int j=0; j<g.getNbColumns();j++)
-        {
-            if(g.getElementsTable()[i][j].get()==nullptr)
-            {
-                cout<<".";
-            }
-            else{
-               g.getElementsTable()[i][j]->display(*this);
-
-            }
-
-        }
-        cout<<std::endl;
-    }*/
 }

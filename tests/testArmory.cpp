@@ -5,7 +5,7 @@
 #include "position.h"
 #include "armory.h"
 
-TEST_CASE("Test de la classe sword")
+TEST_CASE("Test de la classe armory")
 {
 
     SUBCASE("Test constructeur")

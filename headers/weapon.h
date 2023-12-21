@@ -10,6 +10,7 @@ class weapon
         weapon(double solidite);
         double getSolidity() const;
         void setSolidity(double nouvforce);
+        void addToSolidity(double f);
     private:
         double d_solidity;
 

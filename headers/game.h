@@ -12,6 +12,7 @@ class game
     public:
      game();
      void play();
+     //void deplacement()
      void afficherInfosMonstres(const monster *m,char type) ;
      void chargerGround(ground &g);
      int choixView();

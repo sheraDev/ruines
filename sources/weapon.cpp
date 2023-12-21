@@ -11,3 +11,8 @@ void weapon::setSolidity(double nouvforce)
 {
     d_solidity =  nouvforce;
 }
+
+void weapon::addToSolidity(double f)
+{
+    d_solidity +=f;
+}

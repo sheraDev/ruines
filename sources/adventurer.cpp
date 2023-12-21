@@ -2,7 +2,7 @@
 #include "viewManager.h"
 #include "attackManager.h"
 
-adventurer::adventurer(const position &pos,double swordSolidity,double armorySolidity):character{pos},d_sword{swordSolidity},d_armor{armorySolidity}{}
+adventurer::adventurer(const position &pos,double swordSolidity,double armorySolidity,bool hasAmulet,bool isOut, int bourse):character{pos},d_sword{swordSolidity},d_armor{armorySolidity},d_hasAmulet{hasAmulet},d_isOut{isOut},d_bourse{bourse}{}
 
 bool adventurer::hasAmulet() const
 {
@@ -48,4 +48,35 @@ bool adventurer::isOutWithAmulet() const
 void adventurer::setIsOutTrue() 
 {
     d_isOut = true;
+}
+
+int adventurer::getBourse() const
+{
+    return d_bourse;
+}
+        
+        
+void adventurer::addToBourse(int amount)
+{
+    d_bourse+=amount;
+}
+void adventurer::removeFromBourse(int amount)
+{
+    d_bourse-=amount;
+}
+
+    
+void adventurer::setBourse(int val)
+{
+    d_bourse = val;
+}
+void adventurer::addToArmorSolidity(double f)
+{
+    d_armor.addToSolidity(f);
+}
+       
+       
+void adventurer::addToSwordSolidity(double f)
+{
+    d_sword.addToSolidity(f);
 }

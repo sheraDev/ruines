@@ -4,6 +4,7 @@
 #include "ground.h"
 #include "adventurer.h"
 #include "monster.h"
+#include "money.h"
 #include <iostream>
 #include <memory>
 
@@ -180,6 +181,21 @@ void adventurerMoveManager::move(ground&g,int direction)//(ground &g)
                 adv->setIsOutTrue();
             }
                 
+        }
+        else if(type=='M') //argent
+        {
+            int indiceMoney = g.getIndiceElmt(nouvPos,type);
+            auto moneyPtr =  dynamic_cast<money*>(g.getElementsTable()[indiceMoney].get());
+
+            int val = moneyPtr->getValue();
+
+            //AFFICHAGE DE TEST
+            //std::cout<<"La valeur du tas de pieces est "<<val;
+    
+           g.removeElement(indice); //suppr lamulette de la case
+           adv->changePosition(nouvPos);
+           adv->addToBourse(val);            
+
         }
    
     }

@@ -3,18 +3,13 @@
 #include "character.h"
 #include "sword.h"
 #include "armory.h"
-//#include "viewManager.h"
 class viewManager;
 
 class adventurer : public character
 {
     public:
-        adventurer(const position & pos,double swordSolidity=10.0,double armorySolidity=10.0);
-     //   bool receiveAttack(attackManager &attackManag, double force) override;
-        //void moveAt(const position &pos);
-       // void move(movementManager &movManager,ground &g) override;
-
-
+        adventurer(const position & pos,double swordSolidity=10.0,double armorySolidity=10.0,bool hasAmulet=false,bool isOut=false, int bourse=0);
+     
         bool hasAmulet() const;
         void setAmuletTrue();
         bool isOutWithAmulet() const ;
@@ -23,13 +18,24 @@ class adventurer : public character
         void display(const viewManager& view) const override;
         void setSwordSolidity(double sol);
         void setArmorSolidity(double sol);
+       
+        void addToArmorSolidity(double f);
+        void addToSwordSolidity(double f);
+
+       
         void setIsOutTrue();
+
+        int getBourse() const;
+        void addToBourse(int amount);
+        void removeFromBourse(int amount);
+        void setBourse(int val) ;
 
     private:
         sword d_sword;
         armory d_armor;
         bool d_hasAmulet;
         bool d_isOut;
+        int d_bourse;
 
 
 };

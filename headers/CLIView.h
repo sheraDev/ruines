@@ -15,6 +15,8 @@ class CLIView : public viewManager
         void displayMonster(const monster &m) const override;
         void displayDoor(const door &d) const override;
         void displayOutside(const outside &o) const override;
+        void displayMoney(const money &m) const override;
+
 
 };
 

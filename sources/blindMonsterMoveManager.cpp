@@ -189,8 +189,8 @@ void blindMonsterMoveManager::move(ground &g, int direction)
 
             
         }
-        else{
+        /*else{
             std::cout<<"le monstre ne peut pas bouger \n";
-            }
+            }*/
         //SINON = position en dehors du terrain=> le monstre reste à sa place
 }

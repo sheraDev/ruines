@@ -104,7 +104,8 @@ void game::chargerGround(ground &g)
 
 }
 
-//PASSER LE TERRAIN ET LA VIEW
+
+
 
 
 void game::play() 
@@ -128,6 +129,56 @@ void game::play()
     while( partie && !win )
     {
         std::cout<<"-------------- Tour n°"<<tour<<"------------------\n";
+
+        int indiceAdv = g.getIndiceAdventurer();
+        auto adv= dynamic_cast<adventurer*>(g.getElementsTable()[indiceAdv].get());
+
+        int rep;
+        
+       
+            /*do
+            {
+                std::cout<<"Que voulez vous faire ? 1)Utiliser la bourse 2)Me déplacer :"; std::cin>>rep;
+            } while (!(rep==1)||(rep==2));
+
+            if(rep==1) //utiliser la bourse
+            {
+                int montantVoulu;
+                int montantBourse = adv->getBourse();
+                int choixRep;
+                do
+                {
+                    std::cout<<"Vous avez : "<<montantBourse<<" pieces.Entrer le montant que vous voulez utiliser : ";
+                    std::cin>>montantVoulu;
+                }while(montantVoulu<=0 || montantVoulu>montantBourse);
+
+                do
+                {
+                    std::cout<<"Que voulez vous réparer ? 1)Armure 2)Epee :";
+                    std::cin>>choixRep;
+                } while (!(choixRep==1 || choixRep==2));
+
+                if(choixRep==1) //Réparer armure
+                {
+                    adv->addToArmorSolidity(montantVoulu);
+                    adv->removeFromBourse(montantVoulu);
+                    std::cout<<"Votre armure a maintenant : "<<adv->getArmor().getSolidity()<<" points.\n";
+                }
+                else if(choixRep==2)
+                {
+                    adv->addToSwordSolidity(montantVoulu);
+                    adv->removeFromBourse(montantVoulu);
+                    std::cout<<"Votre épee a maintenant : "<<adv->getSword().getSolidity()<<" points.\n";
+                }
+                
+
+            }*/
+          
+        
+        
+
+        
+        
         //L AVENTURIER SE DEPLACE
         do
         {   std::cout<<"Entrer la direction où vous souhaitez aller: \n";
@@ -140,8 +191,7 @@ void game::play()
         adventurerMoveManager advMover{posAdv};
         advMover.move(g,direction);
 
-        int indiceAdv = g.getIndiceAdventurer();
-        auto adv= dynamic_cast<adventurer*>(g.getElementsTable()[indiceAdv].get());
+        
 
         if(adv->isOutWithAmulet())
         {
@@ -215,10 +265,11 @@ void game::play()
             if(adv->lifePoints()>0)
             {
                 std::cout<<"----------Fin du tour "<<tour<<"----------\n";
-                std::cout<<"Voici vos points : \n";
-                std::cout<<"Points de vie:"<<  adv->lifePoints() <<"\n";
-                std::cout<<"Points de solidité de l'épée:"<<adv->getSword().getSolidity()<<"\n";
-                std::cout<<"Points de solidité de l'armure:"<<adv->getArmor().getSolidity()<<"\n";
+                std::cout<<"Voici vos informations : \n";
+                std::cout<<"Points de vie :"<<  adv->lifePoints() <<"\n";
+                std::cout<<"Points de solidité de l'épée :"<<adv->getSword().getSolidity()<<"\n";
+                std::cout<<"Points de solidité de l'armure :"<<adv->getArmor().getSolidity()<<"\n";
+                std::cout<<"Montant présent dans la bourse :"<<adv->getBourse()<<"\n";
                 std::cout<<"Présence de l'amulet : "; adv->hasAmulet()?std::cout<<"Oui\n":std::cout<<"Non\n";
 
                 tour++;

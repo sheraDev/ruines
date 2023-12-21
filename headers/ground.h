@@ -40,40 +40,61 @@ using std::string;
 class ground
 {
     public:
-        ground();
+        ground(); //pas de test
+        ground(int nbl,int nbc); //test ok
         void buildGround();
         void importGround(std::istream &ist);
         void exportGround();
 
-        void addElementToGround(std::unique_ptr<groundElement> element);
-        void removeElement(int indice);
-        void setSize(int length,int width); 
+
+        //test ok
+        void addElementToGround(std::unique_ptr<groundElement> element); 
+        
+        //test ok
+        void removeElement(int indice); 
+        
+        //test ok
+        void setSize(int length,int width);  
+        
+        //pas de test
         const std::vector<std::unique_ptr<groundElement>> & getElementsTable() const;
+        
+        //pas de test
         void display(std::unique_ptr<viewManager> &view);
 
 
         //renvoie les indice de tt les elmt a pos donnée
-        std::vector<int> getIndicePos(const position &p) const; 
+        std::vector<int> getIndicePos(const position &p) const;  //test ok
 
 
         //seulement qd on est sur qu'il ya un seul element a la position p
-        int indicePos(const position &p) const; 
+        int indicePos(const position &p) const;  //test ok
                                                 
 
+        //test ok
         int nbElmtsPos(const position &p) const;
+        
+        //test ok
         int getIndiceElmt(const position &p,char type) const; //indice de lelmt de type et position donnee = 1 seule possiblilité
 
         
-        
+        //test ok
         position getAdventurerPosition() const; //position de laventurier 
 
+        //test ok
         char typeOf(int indice) const; //type de la case indice
+        
+        //test ok
         position posOf(int indice) const; //position de lelmt case indice
 
+        //test ok
         int getIndiceAdventurer() const; //indice de laventurier
+       
+        int getNbColumns() const; //test ok
+        int getNbLines() const;   //test ok
+        int getNbTotalElmts() const; //test ok
 
-        int getNbColumns() const;
-        int getNbLines() const;
+        int aleatNumber(int n1,int n2);
 
     private:
         int d_nbLines; 
