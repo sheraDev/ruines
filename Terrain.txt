@@ -1,5 +1,8 @@
-4 4
-W W W W 
-W B S W 
-W A D W 
-W P E S 
+7 7
+E E E P E E E 
+S E E E B E E 
+E E B E E E B 
+E E A E E E B 
+E W W E E E B 
+E E B E E E E 
+E E E E S E E 

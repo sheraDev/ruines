@@ -10,6 +10,7 @@
 #include "smartMonsterMoveManager.h"
 #include "blindMonsterMoveManager.h"
 #include <memory>
+#include "monster.h"
 
 #include <iostream>
 #include <istream>
@@ -89,18 +90,12 @@ void game::chargerGround(ground &g)
         break;
     
     case 2:
-        std::cout<<"Entrer le nom du fichier :"; std::cin>>nomFic;
-        std::ifstream fic(nomFic);
-        if(fic)
-        {
-            g.importGround(fic);
-        }
-        else
-        {
-            std::cout<<"Erreur de nom \n";
-            return;
-        }
-
+    std::ifstream fic;
+        do{
+            std::cout<<"Entrer le nom du fichier :"; std::cin>>nomFic;
+            fic.open(nomFic.c_str()); 
+        } while (!fic.is_open()); 
+        g.importGround(fic);
         break;
     }
 
@@ -138,6 +133,8 @@ void game::play()
 
         std::vector<std::vector<int>> tabInfosMonster;
 
+        std::vector<monster*> tabMonstres;
+
         //0 : position . d_x
         //1 position.d_y
         //1 : info
@@ -147,7 +144,7 @@ void game::play()
         //5 pourcentage dhabilité
     
 
-        std::cout<<"-------------- Tour n°"<<tour<<"------------------\n";
+        std::cout<<"+-------------------------------------- Tour n°"<<tour<<"--------------------------------------+\n";
 
         g.display(v);
         int indiceAdv = g.getIndiceAdventurer();
@@ -238,68 +235,35 @@ void game::play()
 
             if(g.typeOf(i)=='S') //SMART MONSTER
             {
-                //std::cout<<" Au tour du S ! (dans game) \n";
                 auto monster = dynamic_cast<smartMonster*>(g.getElementsTable()[i].get());
                 position posMonster = monster->getPosition();
                 smartMonsterMoveManager monsterMover{posMonster};
-
-                
                 monsterMover.move(g);
-                /*std::cout<<"Déplacement d'un monstre : \n";
-                g.display(v);*/
+                
                 if(monster->isAtOneCaseAdv(g))
                 {   
-                    //Infos du monstre
-                    std::vector<int>tabInfo;
-                    tabInfo.reserve(6);
-                    tabInfo.push_back(monster->getPosition().getLine());
-                    tabInfo.push_back(monster->getPosition().getColumn());
-                    tabInfo.push_back('S');
-                    tabInfo.push_back(monster->lifePoints());
-                    tabInfo.push_back(monster->forcePoints());
-                    tabInfo.push_back(monster->getHability());
-
-                    //Rajouter dans le tab des monstres
-                    tabInfosMonster.push_back(tabInfo);
+                    tabMonstres.push_back(monster);
                 }
     
             }
             else if(g.typeOf(i)=='B') //MONSTRE AVEUGLE
             {
-                //std::cout<<" Au tour du B ! (dans game) \n";
-
                 auto monster = dynamic_cast<blindMonster*>(g.getElementsTable()[i].get());
                 position posMonster =monster->getPosition();
                 blindMonsterMoveManager monsterMover{posMonster};
                 monsterMover.move(g);
 
-                //AFFICHAGE DE TESTS
-                /*std::cout<<"Déplacement d'un monstre : \n";
-                g.display(v);*/
                 if(monster->isAtOneCaseAdv(g))
                 {
-                    //afficherInfosMonstres(monster,'B');
-                    //Infos du monstre
-                    std::vector<int>tabInfo;
-                    tabInfo.reserve(6);
-                    tabInfo.push_back(monster->getPosition().getLine());
-                    tabInfo.push_back(monster->getPosition().getColumn());
-                    tabInfo.push_back('B');
-                    tabInfo.push_back(monster->lifePoints());
-                    tabInfo.push_back(monster->forcePoints());
-                    tabInfo.push_back(monster->getHability());
-
-                    //Rajouter dans le tab des monstres
-                    tabInfosMonster.push_back(tabInfo);
-
+                    tabMonstres.push_back(monster);
                 }
             }
             
         }
 
         
-            std::cout<<"\nTous les monstres se sont déplacés, réaffichage du terrain : \n";
-            g.display(v);
+            //std::cout<<"\nTous les monstres se sont déplacés, réaffichage du terrain : \n";
+            //g.display(v);
 
 
             
@@ -307,48 +271,61 @@ void game::play()
             {
 
 
-                std::cout<<"----------Fin du tour "<<tour<<"----------\n\n";
+                std::cout<<"+------------------------------------Fin du tour "<<tour<<"------------------------------------+\n\n";
 
-                //AFFICHAGE DES INFOS DES MONSTRES
-                std::cout<<"Infos des monstres  : \n";
+                //AFFICHAGE DES INFOS DES MONSTRES PROCHES
 
-                std::cout<<" +--------------------------------------------------------------------------+\n";
-                std::cout<<" | Ligne  |  Colonne   |    Type     |   PV       |     PF       | Hability |\n";
-                std::cout<<" +--------------------------------------------------------------------------+\n";
-
-                for(int i=0;i<tabInfosMonster.size();i++) //parcours des monstres
+                if(tabMonstres.size()>0)
                 {
-                    std::cout<<" |    ";
-                    for(int j=0;j<tabInfosMonster[i].size();j++)
+                    std::cout<<"Infos des monstres proches  : \n";
+
+                    std::cout<<" +--------------------------------------------------------------------------------+\n";
+                    std::cout<<" | Ligne  |  Colonne   |       Type       |    PV       |     PF       | Hability |\n";
+                    std::cout<<" +--------------------------------------------------------------------------------+\n";
+
+                    
+                    for(int i=0;i<tabMonstres.size();i++)
                     {
-                        if(j==2)
+                        std::cout<<" |    ";
+                        std::cout<<tabMonstres[i]->getPosition().getLine()<<"         ";
+                        std::cout<<tabMonstres[i]->getPosition().getColumn()<<"          ";
+
+                        //type
+                        if(dynamic_cast<blindMonster*>(tabMonstres[i]))
                         {
-                            std::cout<<(char)tabInfosMonster[i][j]<<"         ";
+                            std::cout<<"Blind Monster"<<"      ";
                         }
-                        else 
-                            std::cout<<tabInfosMonster[i][j]<<"           ";
+                        else if(dynamic_cast<smartMonster*>(tabMonstres[i]))
+                        {
+                            std::cout<<"Smart Monster"<<"      ";
+                        }
+                        std::cout<<tabMonstres[i]->lifePoints()<<"            ";
+                        std::cout<<tabMonstres[i]->forcePoints()<<"           ";
+                        std::cout<<tabMonstres[i]->getHability()<<"   |\n";
+
+
                     }
-                    std::cout<<"\b\b\b\b\b|\n";
+                    std::cout<<" +--------------------------------------------------------------------------------+\n";
+
+
                 }
-                std::cout<<" +--------------------------------------------------------------------------+\n";
-
-
-
+                
+           
             //AFFICHAGE DES POINTS DE L'ADV
 
                 std::cout<<"Infos de l'aventurier  : \n";
 
-                std::cout<<" +----------------------------------------------------------------------------+\n";
-                std::cout<<" | PV  |  Points épée   |    Points armure     |     Bourse      |    Amulet  |\n";
-                std::cout<<" +----------------------------------------------------------------------------+\n";
+                std::cout<<" +--------------------------------------------------------------------------------+\n";
+                std::cout<<" |    PV   |  Points épée   |    Points armure     |     Bourse      |    Amulet  |\n";
+                std::cout<<" +--------------------------------------------------------------------------------+\n";
                
                 std::cout<<" | ";
                 std::cout<< adv->lifePoints() <<"        ";
                 std::cout<<adv->getSword().getSolidity()<<"                 ";
-                std::cout<<adv->getArmor().getSolidity()<<"                    ";
+                std::cout<<adv->getArmor().getSolidity()<<"                     ";
                 std::cout<<adv->getBourse()<<"         ";
-                adv->hasAmulet()?std::cout<<"     Oui    |":std::cout<<"     Non    |";
-                std::cout<<"\n +----------------------------------------------------------------------------+\n";
+                adv->hasAmulet()?std::cout<<"        Oui    |":std::cout<<"        Non    |";
+                std::cout<<" \n +--------------------------------------------------------------------------------+\n";
 
                 std::cout<<"\n";
 

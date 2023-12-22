@@ -42,7 +42,7 @@ void CLIView::displayOutside(const outside &o) const
 
 void CLIView::displayMoney(const money &m) const
 {
-    cout<<"  💰  ";
+    cout<<" 💰 ";
 }
 
 
@@ -62,7 +62,7 @@ void CLIView::displayGround(const ground &g) const
             nbElmt = g.nbElmtsPos(p);
             if(nbElmt==0) // AUCUN ELEMENT
             {
-                cout<<" . ";
+                cout<<"  .  ";
             }
             else if(nbElmt==1)
             {
