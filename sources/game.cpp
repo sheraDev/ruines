@@ -16,7 +16,9 @@
 #include <istream>
 #include <fstream>
 #include <cstdlib>
-
+#include <cstdio>
+#include <limits>
+#include <iomanip>
 
 
 
@@ -114,12 +116,13 @@ void game::play()
     int tour=1;
 
     int choixInterface = choixView();
+    system("clear");
     auto v = move(createView(choixInterface));
 
     ground g;
     this->chargerGround(g);
     //g.display(v);
-    system("clear");
+     system("clear");
 
 
 
@@ -140,65 +143,32 @@ void game::play()
         auto adv= dynamic_cast<adventurer*>(g.getElementsTable()[indiceAdv].get());
 
         int rep;
-        
-       
-       
-        //L AVENTURIER SE DEPLACE
-        //do
-        //{   
-            int depl;
+        int depl=0;
 
-            if(adv->getBourse()>0)
+        if(adv->getBourse()>0) 
+        {
+
+            do
             {
+                std::cout<<"Que voulez vous faire ? \n1)Utiliser la bourse \n2)Me déplacer \n"; std::cin>>rep;
+            } 
+            while (!(rep==1||rep==2));
 
-                do
-                {
-                    std::cout<<"Que voulez vous faire ? \n1)Utiliser la bourse \n2)Me déplacer :\n"; std::cin>>rep;
-                } while (!(rep==1)||(rep==2));
-
-                if(rep==1) //utiliser la bourse
-                {
-                    int montantVoulu;
-                    int montantBourse = adv->getBourse();
-                    int choixRep;
-                    do
-                    {
-                        std::cout<<"Vous avez : "<<montantBourse<<" pieces.Entrer le montant que vous voulez utiliser : ";
-                        std::cin>>montantVoulu;
-                    }while(montantVoulu<=0 || montantVoulu>montantBourse);
-
-                    do
-                    {
-                        std::cout<<"Que voulez vous réparer ? \n1)Armure \n2)Epee :\n";
-                        std::cin>>choixRep;
-                    } while (!(choixRep==1 || choixRep==2));
-
-                    if(choixRep==1) //Réparer armure
-                    {
-                        adv->addToArmorSolidity(montantVoulu);
-                        adv->removeFromBourse(montantVoulu);
-                        std::cout<<"Votre armure a maintenant : "<<adv->getArmor().getSolidity()<<" points.\n";
-                    }
-                    else if(choixRep==2) //Réparer épée
-                    {
-                        adv->addToSwordSolidity(montantVoulu);
-                        adv->removeFromBourse(montantVoulu);
-                        std::cout<<"Votre épee a maintenant : "<<adv->getSword().getSolidity()<<" points.\n";
-                    }
-                    
-
-                }
-                else{
-                    depl=1;
-                }
+            if(rep==1) //utiliser la bourse
+            {
+                useBourse(adv);
             }
-            else
-            {
+            else if(rep==2){ //se deplacer
                 depl=1;
             }
+        }
+        else //se deplacer
+        {
+            depl=1;
+        }
 
 
-            if(depl==1) //se deplacer
+            if(depl==1) //l'aventurier se déplace
             {
                     do{
                         std::cout<<"Entrer la direction où vous souhaitez aller: \n";
@@ -207,7 +177,7 @@ void game::play()
                     }
                     while(!(direction==1 || direction==2 || direction==3 || direction==4||direction==5||direction==6||direction==7 ||direction==8 ||direction==9));
 
-                
+                    system("clear");
         
             
                     position posAdv = g.getAdventurerPosition();
@@ -222,7 +192,9 @@ void game::play()
                     }
                     if(!win)
                     {
-                        std::cout<<"L'aventurier s'est déplacé :\n";
+                        std::cout<<"+-------------------------------------- Tour n°"<<tour<<"--------------------------------------+\n";
+
+                        //std::cout<<"\nL'aventurier s'est déplacé ...\n\n";
                         g.display(v);
                     }
                     else
@@ -230,52 +202,89 @@ void game::play()
                         std::cout<< "Vous avez gagné ! \n";
                         break;
                     }
-
-                    
-
-                   // system("clear");
-
-                    //LES MONSTRES SE DEPLACENT
-                    tabMonstres = deplacerMonstres(g);
-                    
-                    std::cout<<"\nTous les monstres se sont déplacés, réaffichage du terrain : \n";
-                    g.display(v);
-
-
-                    
-                    if(adv->lifePoints()>0)
-                    {
-
-
-                        std::cout<<"+------------------------------------Fin du tour "<<tour<<"------------------------------------+\n\n";
-
-                        //AFFICHAGE DES INFOS DES MONSTRES PROCHES
-
-                        if(tabMonstres.size()>0)
-                        {
-                            afficherInfosMonstresProches(tabMonstres);
-                        }
-                        
-                
-                        //AFFICHAGE DES POINTS DE L'ADV
-                        afficherInfosAdv(adv);
-                        tour++;
-                    }
-                    else
-                    {
-                        std::cout<<"Vous etes mort.Fin de la partie \n";
-                        partie= false;
-                    }
             }
+                    
+
+            // system("clear");
+
+            std::cout<<"Les monstres se déplacent... Appuyez sur une touche pour continuer \n";
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //vider le tampn
+            std::cin.get();
+            system("clear");
+
+            //LES MONSTRES SE DEPLACENT
+            tabMonstres = deplacerMonstres(g);
+            std::cout<<"+-------------------------------------- Tour n°"<<tour<<"--------------------------------------+\n";
+
+            //std::cout<<"\nLes monstres se sont déplacés... \n\n";
+            g.display(v);
+
+            if(adv->lifePoints()>0)
+            {
+                    std::cout<<"+------------------------------------Fin du tour "<<tour<<"------------------------------------+\n\n";
+
+                //AFFICHAGE DES INFOS DES MONSTRES PROCHES
+                if(tabMonstres.size()>0)
+                {
+                    afficherInfosMonstresProches(tabMonstres);
+                }
+                //AFFICHAGE DES POINTS DE L'ADV
+                afficherInfosAdv(adv);
+
+                std::cout<<"Appuyez sur une touche pour continuer ...\n";
+                std::cin.get();
+                system("clear");
+
+                
+                tour++;
+            }
+            else
+            {
+                std::cout<<"Vous etes mort.Fin de la partie \n";
+                partie= false;
+            }
+            
     }
 
-        //}
+        
 
 
     }
 
 
 
+
+void game::useBourse(adventurer *adv)
+{
+    int montantVoulu;
+    int montantBourse = adv->getBourse();
+    int choixRep;
+    do
+    {
+        std::cout<<"Vous avez : "<<montantBourse<<" pieces.Entrer le montant que vous voulez utiliser : ";
+        std::cin>>montantVoulu;
+    }while(montantVoulu<=0 || montantVoulu>montantBourse);
+
+    do
+    {
+        std::cout<<"Que voulez vous réparer ? \n1)Armure \n2)Epee :\n";
+        std::cin>>choixRep;
+    } while (!(choixRep==1 || choixRep==2));
+
+    if(choixRep==1) //Réparer armure
+    {
+        adv->addToArmorSolidity(montantVoulu);
+        adv->removeFromBourse(montantVoulu);
+        std::cout<<"Votre armure a maintenant : "<<adv->getArmor().getSolidity()<<" points.\n";
+    }
+    else if(choixRep==2) //Réparer épée
+    {
+        adv->addToSwordSolidity(montantVoulu);
+        adv->removeFromBourse(montantVoulu);
+        std::cout<<"Votre épee a maintenant : "<<adv->getSword().getSolidity()<<" points.\n";
+    }
+
+}
 
 
 
@@ -320,6 +329,12 @@ std::vector<monster*> game::deplacerMonstres(ground&g)
 
 void game::afficherInfosAdv(const adventurer*adv)
 {
+    for (int i = 0; i < 10; ++i) {
+        std::cout << "\x1B[A";
+    }
+
+    // Affiche le texte en haut à droite
+    std::cout << std::setw(120) << std::right << "texte" << std::endl;
     std::cout<<"Infos de l'aventurier  : \n";
 
     std::cout<<" +--------------------------------------------------------------------------------+\n";

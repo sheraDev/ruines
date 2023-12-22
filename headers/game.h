@@ -20,6 +20,8 @@ class game
      int choixView();
      std::unique_ptr<viewManager> createView(int choix);
 
+     void useBourse(adventurer *adv);
+
      void afficherInfosAdv(const adventurer*adv);
      void afficherInfosMonstresProches(const std::vector<monster*> &tabMonstres) ;
      std::vector<monster*> deplacerMonstres(ground&g);
