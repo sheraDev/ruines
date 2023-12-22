@@ -24,17 +24,6 @@
 
 game::game(){}
 
-void game::afficherInfosMonstres(const monster *m,char type) 
-{
-    std::cout<<"Infos du monstre à la case "<<m->getPosition().getLine()<<","<<m->getPosition().getColumn() <<":\n";
-    std::cout<<"Type :";type=='S'?std::cout<<"Smart Monster\n":std::cout<<"Monstre aveugle\n";
-
-    std::cout<<"Points de vie : "<<m->lifePoints()<<"\n";
-    std::cout<<"Points de force : "<<m->forcePoints()<<"\n";
-    std::cout<<"Pourcentage d'habilité : "<<m->getHability()<<"\n";
-    std::cout<<"\n";
-}
-
 
 
 int game::choixView()
@@ -42,7 +31,7 @@ int game::choixView()
    int choix;
    do
    {
-    std::cout<<"Quel type d'interface voulez vous ?\n1-Ligne de commandes\n";
+    std::cout<<" Quel type d'interface voulez vous ?\n 1-Ligne de commandes\n";
     std::cin>>choix;
     
    } while (!(choix==1));
@@ -73,7 +62,7 @@ void game::chargerGround(ground &g)
     std::string nomFic;
     do
     {
-        std::cout<<"Comment voulez-vous construire le terrain ? \n1-Construire manuellement\n2-Importer depuis un fichier\n";
+        std::cout<<" Comment voulez-vous construire le terrain ? \n 1-Construire manuellement\n 2-Importer depuis un fichier\n";
         std::cin>>choix;
     }
     while(!(choix==1||choix==2));
@@ -82,19 +71,19 @@ void game::chargerGround(ground &g)
     {
     case 1:
         g.buildGround();
-        std::cout<<"Voulez vous sauvegarder le terrain dans un fichier ? O/N :";
+        std::cout<<" Voulez vous sauvegarder le terrain dans un fichier ? O/N :";
         char rep;std::cin>>rep;
         if(rep=='O')
         {
             g.exportGround();
-            std::cout<<"Fichier sauvegardé avec succès \n";
+            std::cout<<" Fichier sauvegardé avec succès \n";
         }
         break;
     
     case 2:
     std::ifstream fic;
         do{
-            std::cout<<"Entrer le nom du fichier :"; std::cin>>nomFic;
+            std::cout<<" Entrer le nom du fichier :"; std::cin>>nomFic;
             fic.open(nomFic.c_str()); 
         } while (!fic.is_open()); 
         g.importGround(fic);
@@ -136,7 +125,9 @@ void game::play()
 
         std::vector<monster*> tabMonstres;
 
-        std::cout<<"+-------------------------------------- Tour n°"<<tour<<"--------------------------------------+\n";
+        std::cout<<" +----------------------------------- Tour n°"<<tour<<" -----------------------------------+\n\n";
+                     
+
 
         g.display(v);
         int indiceAdv = g.getIndiceAdventurer();
@@ -150,7 +141,7 @@ void game::play()
 
             do
             {
-                std::cout<<"Que voulez vous faire ? \n1)Utiliser la bourse \n2)Me déplacer \n"; std::cin>>rep;
+                std::cout<<" Que voulez vous faire ? \n 1)Utiliser la bourse \n 2)Me déplacer \n"; std::cin>>rep;
             } 
             while (!(rep==1||rep==2));
 
@@ -171,8 +162,8 @@ void game::play()
             if(depl==1) //l'aventurier se déplace
             {
                     do{
-                        std::cout<<"Entrer la direction où vous souhaitez aller: \n";
-                        std::cout<<"1 2 3\n4 ⑤ 6\n7 8 9\n ";
+                        std::cout<<"\n\n Entrer la direction où vous souhaitez aller: \n";
+                        std::cout<<" 1 2 3\n 4 ⑤ 6\n 7 8 9\n ";
                         std::cin >>direction;
                     }
                     while(!(direction==1 || direction==2 || direction==3 || direction==4||direction==5||direction==6||direction==7 ||direction==8 ||direction==9));
@@ -192,9 +183,7 @@ void game::play()
                     }
                     if(!win)
                     {
-                        std::cout<<"+-------------------------------------- Tour n°"<<tour<<"--------------------------------------+\n";
-
-                        //std::cout<<"\nL'aventurier s'est déplacé ...\n\n";
+                        std::cout<<" +----------------------------------- Tour n°"<<tour<<" -----------------------------------+\n\n";
                         g.display(v);
                     }
                     else
@@ -207,21 +196,21 @@ void game::play()
 
             // system("clear");
 
-            std::cout<<"Les monstres se déplacent... Appuyez sur une touche pour continuer \n";
+            std::cout<<"\n Les monstres se déplacent... Appuyez sur entrée pour continuer \n";
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //vider le tampn
             std::cin.get();
             system("clear");
 
             //LES MONSTRES SE DEPLACENT
             tabMonstres = deplacerMonstres(g);
-            std::cout<<"+-------------------------------------- Tour n°"<<tour<<"--------------------------------------+\n";
+            std::cout<<" +----------------------------------- Tour n°"<<tour<<" -----------------------------------+\n\n";
 
-            //std::cout<<"\nLes monstres se sont déplacés... \n\n";
+
             g.display(v);
 
             if(adv->lifePoints()>0)
             {
-                    std::cout<<"+------------------------------------Fin du tour "<<tour<<"------------------------------------+\n\n";
+                    std::cout<<"\n +------------------------------ Fin du tour n°"<<tour<<" ---------------------------------+\n\n";
 
                 //AFFICHAGE DES INFOS DES MONSTRES PROCHES
                 if(tabMonstres.size()>0)
@@ -231,7 +220,7 @@ void game::play()
                 //AFFICHAGE DES POINTS DE L'ADV
                 afficherInfosAdv(adv);
 
-                std::cout<<"Appuyez sur une touche pour continuer ...\n";
+                std::cout<<" Appuyez sur entrée pour continuer ...\n";
                 std::cin.get();
                 system("clear");
 
@@ -261,13 +250,13 @@ void game::useBourse(adventurer *adv)
     int choixRep;
     do
     {
-        std::cout<<"Vous avez : "<<montantBourse<<" pieces.Entrer le montant que vous voulez utiliser : ";
+        std::cout<<" Vous avez : "<<montantBourse<<" pieces.Entrer le montant que vous voulez utiliser : ";
         std::cin>>montantVoulu;
     }while(montantVoulu<=0 || montantVoulu>montantBourse);
 
     do
     {
-        std::cout<<"Que voulez vous réparer ? \n1)Armure \n2)Epee :\n";
+        std::cout<<" Que voulez vous réparer ? \n 1)Armure \n 2)Epee \n";
         std::cin>>choixRep;
     } while (!(choixRep==1 || choixRep==2));
 
@@ -275,13 +264,13 @@ void game::useBourse(adventurer *adv)
     {
         adv->addToArmorSolidity(montantVoulu);
         adv->removeFromBourse(montantVoulu);
-        std::cout<<"Votre armure a maintenant : "<<adv->getArmor().getSolidity()<<" points.\n";
+        std::cout<<" Votre armure a maintenant : "<<adv->getArmor().getSolidity()<<" points.\n";
     }
     else if(choixRep==2) //Réparer épée
     {
         adv->addToSwordSolidity(montantVoulu);
         adv->removeFromBourse(montantVoulu);
-        std::cout<<"Votre épee a maintenant : "<<adv->getSword().getSolidity()<<" points.\n";
+        std::cout<<" Votre épee a maintenant : "<<adv->getSword().getSolidity()<<" points.\n";
     }
 
 }
@@ -329,13 +318,7 @@ std::vector<monster*> game::deplacerMonstres(ground&g)
 
 void game::afficherInfosAdv(const adventurer*adv)
 {
-    for (int i = 0; i < 10; ++i) {
-        std::cout << "\x1B[A";
-    }
-
-    // Affiche le texte en haut à droite
-    std::cout << std::setw(120) << std::right << "texte" << std::endl;
-    std::cout<<"Infos de l'aventurier  : \n";
+    std::cout<<"\n Infos de l'aventurier  : \n";
 
     std::cout<<" +--------------------------------------------------------------------------------+\n";
     std::cout<<" |    PV   |  Points épée   |    Points armure     |     Bourse      |    Amulet  |\n";
@@ -346,7 +329,7 @@ void game::afficherInfosAdv(const adventurer*adv)
     std::cout<<adv->getSword().getSolidity()<<"                 ";
     std::cout<<adv->getArmor().getSolidity()<<"                     ";
     std::cout<<adv->getBourse()<<"         ";
-    adv->hasAmulet()?std::cout<<"        Oui    |":std::cout<<"        Non    |";
+    adv->hasAmulet()?std::cout<<"        Oui    ":std::cout<<"        Non    ";
     std::cout<<" \n +--------------------------------------------------------------------------------+\n";
 
     std::cout<<"\n";
@@ -355,7 +338,7 @@ void game::afficherInfosAdv(const adventurer*adv)
 
 void game::afficherInfosMonstresProches(const std::vector<monster*> &tabMonstres) 
 {
-    std::cout<<"Infos des monstres proches  : \n";
+    std::cout<<"\n Infos des monstres proches  : \n";
 
     std::cout<<" +--------------------------------------------------------------------------------+\n";
     std::cout<<" | Ligne  |  Colonne   |       Type       |    PV       |     PF       | Hability |\n";
@@ -379,7 +362,7 @@ void game::afficherInfosMonstresProches(const std::vector<monster*> &tabMonstres
         }
         std::cout<<tabMonstres[i]->lifePoints()<<"            ";
         std::cout<<tabMonstres[i]->forcePoints()<<"           ";
-        std::cout<<tabMonstres[i]->getHability()<<"   |\n";
+        std::cout<<tabMonstres[i]->getHability()<<"   \n";
 
 
     }

@@ -12,7 +12,7 @@ class ground;
 class character : public groundElement
 {
     public:
-        character(const position &p);
+        character(const position &p,int pf,int pv);
         virtual ~character()= default;
         double attack(attackManager &attackManag);
         bool receiveAttack(attackManager &attackManag,double force);

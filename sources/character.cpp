@@ -2,7 +2,7 @@
 #include "attackManager.h"
 #include "movementManager.h"
 
-character::character(const position &p):groundElement{p}{}
+character::character(const position &p,int pf,int pv):groundElement{p},d_forcePoints{pf},d_lifePoints{pv}{}
 
 
 

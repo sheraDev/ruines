@@ -42,7 +42,7 @@ void CLIView::displayOutside(const outside &o) const
 
 void CLIView::displayMoney(const money &m) const
 {
-    cout<<" 💰 ";
+    cout<<"  💰 ";
 }
 
 
@@ -72,7 +72,7 @@ void CLIView::displayGround(const ground &g) const
             }
             else if(nbElmt==2) // l'aventurier et un monstre sur la meme case
             {
-                cout<<" 💣 ";
+                cout<<" 💣  ";
             }
     
         }

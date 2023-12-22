@@ -176,13 +176,23 @@ void ground::removeElement(int indice)
     d_groundElementsTab.erase(d_groundElementsTab.begin() + indice);
 }
 
+double ground::aleatDouble() const
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<double> distrib(0.0, 10.0);
+    double nombre = distrib(gen) / 10.0;
+    return round(nombre * 10.0) / 10.0;
+}
+
 
 
 
 
 void ground::buildGround()   //creer un terrain manuellement
 {
-    cout<<"\n ----- MANUALLY GENERATION FIELD -------\n";
+  cout<<"\n +------------------------- GENERATION MANUELLE DE TERRAIN -----------------------+\n";
+
 
     int c,li;
     do{
@@ -212,11 +222,19 @@ void ground::buildGround()   //creer un terrain manuellement
 
             if(l=='S') //Monstre voyant a la case [i][j]
             {
-                auto p = std::make_unique<smartMonster>(pos);
+                //tirer ses pv, pf et habilité aleatoirement
+                int pf = aleatNumber(50,120);
+                int pv = aleatNumber(500,1000);
+                double hab = aleatDouble();
+                auto p = std::make_unique<smartMonster>(pos,pf,pv,hab);
                 addElementToGround(std::move(p));
             }
             else if(l=='B') //Monstre aveugle à la case [i][j]
             {
+                //tirer ses pv, pf et habilité aleatoirement
+                int pf = aleatNumber(50,120);
+                int pv = aleatNumber(500,1000);
+                double hab = aleatDouble();
                 auto p = std::make_unique<blindMonster>(pos);
                 addElementToGround(std::move(p));
             }
@@ -247,7 +265,8 @@ void ground::buildGround()   //creer un terrain manuellement
             }
             else if(l=='M')
             {
-                auto p = std::make_unique<money>(pos);
+                int val = aleatNumber(1,20);
+                auto p = std::make_unique<money>(pos,val);
                 addElementToGround(std::move(p));
             }
         }
@@ -274,12 +293,20 @@ void ground::importGround(std::istream &ist)
 
             if(elem=='S') //Monstre voyant a la case [i][j]
             {
-                auto p = std::make_unique<smartMonster>(pos);
+                //tirer ses pv, pf et habilité aleatoirement
+                int pf = aleatNumber(50,120);
+                int pv = aleatNumber(500,1000);
+                double hab = aleatDouble();
+                auto p = std::make_unique<smartMonster>(pos,pf,pv,hab);
                 addElementToGround(std::move(p));
             }
             else if(elem=='B') //Monstre aveugle à la case [i][j]
             {
-                auto p = std::make_unique<blindMonster>(pos);
+                //tirer ses pv, pf et habilité aleatoirement
+                int pf = aleatNumber(50,120);
+                int pv = aleatNumber(500,1000);
+                double hab = aleatDouble();
+                auto p = std::make_unique<blindMonster>(pos,pf,pv,hab);
                 addElementToGround(std::move(p));
             }
             else if(elem=='W') //Mur a la case [i][j]

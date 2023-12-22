@@ -4,7 +4,7 @@
 #include "attackManager.h"
 #include "ground.h"
         
-monster::monster(const position &pos, double hability) : character{pos},d_hability{hability} {}
+monster::monster(const position &pos,int pf,int pv, double hability) : character{pos,pf,pv},d_hability{hability} {}
 
 bool monster::isAtOneCaseAdv(ground &g)
 {

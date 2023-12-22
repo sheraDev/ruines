@@ -5,7 +5,7 @@
 class blindMonster : public monster
 {
     public:
-        blindMonster(const position & pos);
+        blindMonster(const position & pos,int pf=100,int pv=700,double hability=0.6);
 };
 
 

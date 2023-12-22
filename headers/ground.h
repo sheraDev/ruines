@@ -95,6 +95,7 @@ class ground
         int getNbTotalElmts() const; //test ok
 
         int aleatNumber(int n1,int n2);
+        double aleatDouble() const;
 
     private:
         int d_nbLines; 

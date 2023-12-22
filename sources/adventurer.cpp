@@ -2,7 +2,7 @@
 #include "viewManager.h"
 #include "attackManager.h"
 
-adventurer::adventurer(const position &pos,double swordSolidity,double armorySolidity,bool hasAmulet,bool isOut, int bourse):character{pos},d_sword{swordSolidity},d_armor{armorySolidity},d_hasAmulet{hasAmulet},d_isOut{isOut},d_bourse{bourse}{}
+adventurer::adventurer(const position &pos,int pf,int pv,double swordSolidity,double armorySolidity,bool hasAmulet,bool isOut, int bourse):character{pos,pf,pv},d_sword{swordSolidity},d_armor{armorySolidity},d_hasAmulet{hasAmulet},d_isOut{isOut},d_bourse{bourse}{}
 
 bool adventurer::hasAmulet() const
 {

@@ -15,7 +15,7 @@ class game
      game();
      void play();
      //void deplacement()
-     void afficherInfosMonstres(const monster *m,char type) ;
+     //void afficherInfosMonstres(const monster *m,char type) ;
      void chargerGround(ground &g);
      int choixView();
      std::unique_ptr<viewManager> createView(int choix);
