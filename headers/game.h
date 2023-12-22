@@ -5,6 +5,8 @@
 class ground;
 class monster;
 #include "viewManager.h"
+#include <vector>
+#include "monster.h"
 
 
 class game
@@ -17,6 +19,11 @@ class game
      void chargerGround(ground &g);
      int choixView();
      std::unique_ptr<viewManager> createView(int choix);
+
+     void afficherInfosAdv(const adventurer*adv);
+     void afficherInfosMonstresProches(const std::vector<monster*> &tabMonstres) ;
+     std::vector<monster*> deplacerMonstres(ground&g);
+
 };
 
 

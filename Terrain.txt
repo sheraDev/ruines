@@ -1,8 +1,6 @@
-7 7
-E E E P E E E 
-S E E E B E E 
-E E B E E E B 
-E E A E E E B 
-E W W E E E B 
-E E B E E E E 
-E E E E S E E 
+5 5
+S E E A E 
+M E E P E 
+B E E B D 
+E O O O E 
+E E O O O 
