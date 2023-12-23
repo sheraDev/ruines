@@ -78,4 +78,5 @@ void CLIView::displayGround(const ground &g) const
         }
         cout<<"\n";
     }
+    cout<<"\n Code :\n $ : vous | M : monster  | * : amulette | . : vide \n - : mur | ~ : extérieur | 💣 : bataille en cours\n";
 }
