@@ -104,6 +104,14 @@ void game::startDisplay()
     std::cout<<" Ressortez en vie du donjon avec l'amulette  ! \n\n";
 
 }
+void game::clear() 
+{
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
+}
 
 void game::rules()
 {
@@ -116,13 +124,13 @@ void game::play()
     bool win = false;
     int direction;
     int tour=1;
-    system("clear");
+    clear() ;                
     
     startDisplay();
     
 
     int choixInterface = choixView();
-    system("clear");
+    clear() ;                
     auto v = move(createView(choixInterface));
 
     
@@ -130,14 +138,12 @@ void game::play()
 
     ground g;
     chargerGround(g);
-    system("clear");
-
+    clear() ;                
     rules();
     std::cout<<" Appuyez sur entrée pour continuer ...\n";
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //vider le tampn
     std::cin.get();
-    system("clear");
-
+    clear() ;                
 
     while( partie && !win )
     {
@@ -189,8 +195,7 @@ void game::play()
                     }
                     while(!(direction==1 || direction==2 || direction==3 || direction==4||direction==5||direction==6||direction==7 ||direction==8 ||direction==9));
 
-                    system("clear");
-        
+                    clear() ;                
             
                     position posAdv = g.getAdventurerPosition();
                     adventurerMoveManager advMover{posAdv};
@@ -218,8 +223,7 @@ void game::play()
             std::cout<<"\n Les monstres se déplacent... Appuyez sur entrée pour continuer \n";
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //vider le tampn
             std::cin.get();
-            system("clear");
-
+            clear() ;                
             //LES MONSTRES SE DEPLACENT
             tabMonstres = deplacerMonstres(g);
             std::cout<<" +----------------------------------- Tour n°"<<tour<<" -----------------------------------+\n\n";
@@ -241,9 +245,7 @@ void game::play()
 
                 std::cout<<" Appuyez sur entrée pour continuer ...\n";
                 std::cin.get();
-                system("clear");
-
-                
+                clear() ;                
                 tour++;
             }
             else

@@ -14,6 +14,7 @@ class game
     public:
      game();
      void play();
+     void clear();
 
      void chargerGround(ground &g);
      int choixView();
