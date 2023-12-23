@@ -224,7 +224,7 @@ void ground::buildGround()   //creer un terrain manuellement
             {
                 //tirer ses pv, pf et habilité aleatoirement
                 int pf = aleatNumber(100,200);
-                int pv = aleatNumber(700,1800);
+                int pv = aleatNumber(1000,1800);
                 double hab = aleatDouble();
                 auto p = std::make_unique<smartMonster>(pos,pf,pv,hab);
                 addElementToGround(std::move(p));
@@ -232,7 +232,7 @@ void ground::buildGround()   //creer un terrain manuellement
             else if(l=='B') //Blind monster
             {
                 int pf = aleatNumber(80,300);
-                int pv = aleatNumber(500,1000);
+                int pv = aleatNumber(1000,2000);
                 double hab = aleatDouble();
                 auto p = std::make_unique<blindMonster>(pos,pf,pv,hab);
                 addElementToGround(std::move(p));
@@ -293,7 +293,7 @@ void ground::importGround(std::istream &ist)
         if(elem=='S') //Smart monster
         {
             int pf = aleatNumber(50,120);
-            int pv = aleatNumber(500,1000);
+            int pv = aleatNumber(1000,1800);
             double hab = aleatDouble();
             auto p = std::make_unique<smartMonster>(pos,pf,pv,hab);
             addElementToGround(std::move(p));
@@ -301,7 +301,7 @@ void ground::importGround(std::istream &ist)
         else if(elem=='B') //Blind Monster
         {
             int pf = aleatNumber(50,120);
-            int pv = aleatNumber(500,1000);
+            int pv = aleatNumber(1000,2000);
             double hab = aleatDouble();
             auto p = std::make_unique<blindMonster>(pos,pf,pv,hab);
             addElementToGround(std::move(p));

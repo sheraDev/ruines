@@ -22,12 +22,12 @@ void CLIView::displayWall(const wall &w) const
 
 void CLIView::displayAmulet(const amulet &a) const
 {
-    cout<<"  *  ";
+    cout<<"  🗝  ";
 }
 
 void CLIView::displayMonster(const monster &m) const
 {
-    cout<<"  M  ";
+    cout<<"  Ⓜ️  ";
 }
 
 void CLIView::displayDoor(const door &d) const
@@ -78,5 +78,6 @@ void CLIView::displayGround(const ground &g) const
         }
         cout<<"\n";
     }
-    cout<<"\n Code :\n $ : vous | M : monster  | * : amulette | . : vide \n - : mur | ~ : extérieur | 💣 : bataille en cours\n";
+    cout<<"\n Code :\n $ : vous | Ⓜ️ : monster  | 🗝 : amulette | . : vide | 💰 : tas de pièces\n - : mur | ~ : extérieur | 💣 : bataille en cours | ^ : sortie \n\n";
 }
+

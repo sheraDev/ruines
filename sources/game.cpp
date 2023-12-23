@@ -106,11 +106,7 @@ void game::startDisplay()
 }
 void game::clear() 
 {
-    #ifdef _WIN32
-        system("cls");
-    #else
-        system("clear");
-    #endif
+    system("clear || cls");
 }
 
 void game::rules()
@@ -160,6 +156,7 @@ void game::play()
         int indiceAdv = g.getIndiceAdventurer();
         auto adv= dynamic_cast<adventurer*>(g.getElementsTable()[indiceAdv].get());
 
+        //AJT
         int rep;
         int depl=0;
 
