@@ -11,9 +11,6 @@ class monster : public character
     public:
         virtual ~monster()=default;
         monster(const position &pos,int pf,int pv, double hability=0.8);
-        //void attack() override;
-       // double attack(attackManager &attackManag) override;
-       // bool receiveAttack(attackManager &attackManag,double force) override;
         void display(const viewManager& view) const override;
         double getHability() const;
         bool isAtOneCaseAdv(ground &g);

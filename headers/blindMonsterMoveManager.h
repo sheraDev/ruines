@@ -4,8 +4,6 @@
 class ground;
 
 
-//UN MONSTRE AVEUGLE SE DEPLACE ALEATOIREMENT
-
 class blindMonsterMoveManager : public movementManager
 {
     public:
@@ -13,6 +11,7 @@ class blindMonsterMoveManager : public movementManager
         position directionPosition(int direction) override;
         position possiblePosition(ground &g);
         void move(ground &g,int direction=0) override;
+        int directionAleatoire() const;
 
 
 };

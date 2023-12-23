@@ -226,6 +226,12 @@ TEST_CASE("Test de la classe ground")
 
 
     }
+    SUBCASE("Test générer un nombre aléatoire entre n1 et n2")
+    {
+        int n1=2,n2=14;
+        REQUIRE_GE(g.aleatNumber(), n1);
+        REQUIRE_LE(g.aleatNumber(), n2);
+    }
     
 }
 

@@ -11,7 +11,7 @@ class money : public groundElement
         int getValue() const;
 
     private:
-    int d_value;
+        int d_value;
 
 };
 

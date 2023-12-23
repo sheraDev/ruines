@@ -71,8 +71,12 @@ void game::chargerGround(ground &g)
     {
     case 1:
         g.buildGround();
-        std::cout<<" Voulez vous sauvegarder le terrain dans un fichier ? O/N :";
-        char rep;std::cin>>rep;
+
+        char rep;
+        do{
+            std::cout<<" Voulez vous sauvegarder le terrain dans un fichier ? O/N :";
+            std::cin>>rep;
+        }while(!(rep=='O'||rep=='N'));
         if(rep=='O')
         {
             g.exportGround();
@@ -109,9 +113,8 @@ void game::play()
     auto v = move(createView(choixInterface));
 
     ground g;
-    this->chargerGround(g);
-    //g.display(v);
-     system("clear");
+    chargerGround(g);
+    system("clear");
 
 
 
@@ -119,7 +122,6 @@ void game::play()
 
     while( partie && !win )
     {
-   //   system("clear");
 
         std::vector<std::vector<int>> tabInfosMonster;
 
@@ -193,8 +195,6 @@ void game::play()
                     }
             }
                     
-
-            // system("clear");
 
             std::cout<<"\n Les monstres se déplacent... Appuyez sur entrée pour continuer \n";
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //vider le tampn

@@ -6,20 +6,11 @@
 #include <fstream>
 #include <algorithm>
 
-/*
-#include "groundElement.h"
-#include "monster.h"
-#include "amulet.h"
-#include "adventurer.h"
-#include "smartMonster.h"
-#include "blindMonster.h"
-#include "wall.h"*/
 
 #include "groundElement.h"
 #include "istream"
 #include <iostream>
 #include <istream>
-//class groundElement;
 class monster;
 class amulet;
 class smartMonster;
@@ -40,61 +31,39 @@ using std::string;
 class ground
 {
     public:
-        ground(); //pas de test
-        ground(int nbl,int nbc); //test ok
+    
+        //CONSTRUCTEURS
+        ground(); 
+        ground(int nbl,int nbc); 
+        
+        //GESTION TERRAIN
         void buildGround();
         void importGround(std::istream &ist);
         void exportGround();
-
-
-        //test ok
-        void addElementToGround(std::unique_ptr<groundElement> element); 
-        
-        //test ok
-        void removeElement(int indice); 
-        
-        //test ok
-        void setSize(int length,int width);  
-        
-        //pas de test
-        const std::vector<std::unique_ptr<groundElement>> & getElementsTable() const;
-        
-        //pas de test
+        void setSize(int length,int width);
         void display(std::unique_ptr<viewManager> &view);
+  
 
-
-        //renvoie les indice de tt les elmt a pos donnée
-        std::vector<int> getIndicePos(const position &p) const;  //test ok
-
-
-        //seulement qd on est sur qu'il ya un seul element a la position p
-        int indicePos(const position &p) const;  //test ok
-                                                
-
-        //test ok
+        //GESTION ELEMENTS TERRAIN
+        void addElementToGround(std::unique_ptr<groundElement> element); 
+        void removeElement(int indice); 
+        const std::vector<std::unique_ptr<groundElement>> & getElementsTable() const;
+        std::vector<int> getIndicePos(const position &p) const;  
+        int indicePos(const position &p) const;  
         int nbElmtsPos(const position &p) const;
-        
-        //test ok
-        int getIndiceElmt(const position &p,char type) const; //indice de lelmt de type et position donnee = 1 seule possiblilité
+        int getIndiceElmt(const position &p,char type) const; 
+        position getAdventurerPosition() const;  
+        char typeOf(int indice) const; 
+        position posOf(int indice) const; 
 
-        
-        //test ok
-        position getAdventurerPosition() const; //position de laventurier 
+        //GETTERS
+        int getIndiceAdventurer() const; 
+        int getNbColumns() const; 
+        int getNbLines() const;   
+        int getNbTotalElmts() const;
 
-        //test ok
-        char typeOf(int indice) const; //type de la case indice
-        
-        //test ok
-        position posOf(int indice) const; //position de lelmt case indice
-
-        //test ok
-        int getIndiceAdventurer() const; //indice de laventurier
-       
-        int getNbColumns() const; //test ok
-        int getNbLines() const;   //test ok
-        int getNbTotalElmts() const; //test ok
-
-        int aleatNumber(int n1,int n2);
+        //ALEATOIRES
+        int aleatNumber(int n1,int n2); 
         double aleatDouble() const;
 
     private:

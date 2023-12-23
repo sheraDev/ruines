@@ -5,6 +5,18 @@
 #include "position.h"
 #include "smartMonsterMoveManager.h"
 
+#include "groundElement.h"
+#include "character.h"
+#include "monster.h"
+#include "smartMonster.h"
+#include "blindMonster.h"
+#include "adventurer.h"
+#include "wall.h"
+#include "amulet.h"
+#include "outside.h"
+#include "door.h"
+#include "money.h"
+
 TEST_CASE("Test de la classe smart monster move manager")
 {
     position p{1,1};
@@ -50,7 +62,59 @@ TEST_CASE("Test de la classe smart monster move manager")
         }
 
     }
-    
+    SUBCASE("Test de la méthode vérifiant si le monstre est proche de l'aventurier")
+    {
+        SUBCASE("Test aventurier proche")
+        {
+
+            //construction d'un terrain 3x3
+        
+            ground g{3,3}; 
+
+
+            /*  E | E  | E 
+               ---|----|---
+                E | P  | S
+               ---|----|---
+                E | E  | E
+            */
+
+            // ajout de l'aventurier à la case 1,1
+            position pAdv{1,1};
+            auto p = std::make_unique<adventurer>( pAdv);
+            addElementToGround(std::move(p));
+
+            //ajout d'un smart monster à la case 1,2
+            position pMonstre{1,2};
+            auto s = std::make_unique<smartMonster>(pMonstre);
+            addElementToGround(std::move(s));
+
+            
+            smartMonsterMoveManager smrtMv{pMonstre};
+            REQUIRE_EQ(smrtMv->isNearAdventurer(),true);
+        }
+        SUBCASE("L'aventurier est loin")
+        {
+            //construction d'un terrain 10x10
+        
+            ground g{10,10}; 
+
+            // ajout de l'aventurier à la case 0,0
+            position pAdv{0,0};
+            auto p = std::make_unique<adventurer>(pAdv);
+            addElementToGround(std::move(p));
+
+            //ajout d'un smart monster à la case 9,9
+            position pMonstre{9,9};
+            auto s = std::make_unique<smartMonster>(pMonstre);
+            addElementToGround(std::move(s));
+
+            
+            smartMonsterMoveManager smrtMv{pMonstre};
+            REQUIRE_EQ(smrtMv->isNearAdventurer(),false);
+        }
+        
+    }
 }
 
 

@@ -220,30 +220,29 @@ void ground::buildGround()   //creer un terrain manuellement
 
             position pos{i,j};
 
-            if(l=='S') //Monstre voyant a la case [i][j]
+            if(l=='S') //Smart monster
             {
                 //tirer ses pv, pf et habilité aleatoirement
-                int pf = aleatNumber(50,120);
-                int pv = aleatNumber(500,1000);
+                int pf = aleatNumber(100,200);
+                int pv = aleatNumber(700,1800);
                 double hab = aleatDouble();
                 auto p = std::make_unique<smartMonster>(pos,pf,pv,hab);
                 addElementToGround(std::move(p));
             }
-            else if(l=='B') //Monstre aveugle à la case [i][j]
+            else if(l=='B') //Blind monster
             {
-                //tirer ses pv, pf et habilité aleatoirement
-                int pf = aleatNumber(50,120);
+                int pf = aleatNumber(80,300);
                 int pv = aleatNumber(500,1000);
                 double hab = aleatDouble();
-                auto p = std::make_unique<blindMonster>(pos);
+                auto p = std::make_unique<blindMonster>(pos,pf,pv,hab);
                 addElementToGround(std::move(p));
             }
-            else if(l=='W') //Mur a la case [i][j]
+            else if(l=='W') //Mur 
             {
                 auto p = std::make_unique<wall>(pos);
                 addElementToGround(std::move(p));
             }
-            else if(l=='A') //Amulette à la case [i][j]
+            else if(l=='A') //Amulette 
             {
                 auto p = std::make_unique<amulet>(pos);
                 addElementToGround(std::move(p));            
@@ -258,12 +257,12 @@ void ground::buildGround()   //creer un terrain manuellement
                 auto p = std::make_unique<door>(pos);
                 addElementToGround(std::move(p));
             }
-            else if(l=='O')
+            else if(l=='O') //Case en dehors
             {
                 auto p = std::make_unique<outside>(pos);
                 addElementToGround(std::move(p));
             }
-            else if(l=='M')
+            else if(l=='M') //Tas de pièces
             {
                 int val = aleatNumber(1,20);
                 auto p = std::make_unique<money>(pos,val);
@@ -280,106 +279,104 @@ void ground::importGround(std::istream &ist)
     char elem;
 
     ist>>nbl>>nbcol;
-    
-
-        int cptl=0; 
-        int cptc=0;
-        setSize(nbl,nbcol);
-
-        while(!ist.eof() && cptl<d_nbLines && cptc<d_nbColumns)
-        {
-            position pos{cptl,cptc};
-            ist>>elem;
-
-            if(elem=='S') //Monstre voyant a la case [i][j]
-            {
-                //tirer ses pv, pf et habilité aleatoirement
-                int pf = aleatNumber(50,120);
-                int pv = aleatNumber(500,1000);
-                double hab = aleatDouble();
-                auto p = std::make_unique<smartMonster>(pos,pf,pv,hab);
-                addElementToGround(std::move(p));
-            }
-            else if(elem=='B') //Monstre aveugle à la case [i][j]
-            {
-                //tirer ses pv, pf et habilité aleatoirement
-                int pf = aleatNumber(50,120);
-                int pv = aleatNumber(500,1000);
-                double hab = aleatDouble();
-                auto p = std::make_unique<blindMonster>(pos,pf,pv,hab);
-                addElementToGround(std::move(p));
-            }
-            else if(elem=='W') //Mur a la case [i][j]
-            {
-                auto p = std::make_unique<wall>(pos);
-                addElementToGround(std::move(p));
-            }
-            else if(elem=='A') //Amulette à la case [i][j]
-            {
-                auto p = std::make_unique<amulet>(pos);
-                addElementToGround(std::move(p));  
-          
-            }
-            else if(elem=='P') //Personnage
-            {
-                auto p = std::make_unique<adventurer>(pos);
-                addElementToGround(std::move(p));
-
-            }
-            else if(elem=='D') //Porte
-            {
-                auto p = std::make_unique<door>(pos);
-                addElementToGround(std::move(p));
-            }
-            else if(elem=='O') //Dehors
-            {
-                auto p = std::make_unique<outside>(pos);
-                addElementToGround(std::move(p));
-            }
-            else if(elem=='M') //Pieces
-            {
-                int val = aleatNumber(1,20);
-                auto p = std::make_unique<money>(pos,val);
-                addElementToGround(std::move(p));
-            }
-
-            cptc++;
-
-            if(cptc==nbcol)
-            {
-                cptc=0;
-                cptl++;
-            }
-
-        }
 
 
-    }
+    int cptl=0; 
+    int cptc=0;
+    setSize(nbl,nbcol);
 
-    void ground::exportGround()
+    while(!ist.eof() && cptl<d_nbLines && cptc<d_nbColumns)
     {
-        position p;
-        int nbElmt,indice;
-        char t;
-        std::ofstream fichier("Terrain.txt");
-        fichier<<d_nbLines<<" "<<d_nbColumns<<"\n";
+        position pos{cptl,cptc};
+        ist>>elem;
 
-        for(int i=0;i<d_nbLines;i++)
+        if(elem=='S') //Smart monster
         {
-            for(int j=0; j<d_nbColumns;j++)
-            {
-                p={i,j};
-                indice = indicePos(p);
-                t = typeOf(indice);
-
-                fichier<<t<<" ";
-
-
-
-            }
-            fichier<<"\n";
+            int pf = aleatNumber(50,120);
+            int pv = aleatNumber(500,1000);
+            double hab = aleatDouble();
+            auto p = std::make_unique<smartMonster>(pos,pf,pv,hab);
+            addElementToGround(std::move(p));
         }
+        else if(elem=='B') //Blind Monster
+        {
+            int pf = aleatNumber(50,120);
+            int pv = aleatNumber(500,1000);
+            double hab = aleatDouble();
+            auto p = std::make_unique<blindMonster>(pos,pf,pv,hab);
+            addElementToGround(std::move(p));
+        }
+        else if(elem=='W') //Mur 
+        {
+            auto p = std::make_unique<wall>(pos);
+            addElementToGround(std::move(p));
+        }
+        else if(elem=='A') //Amulette 
+        {
+            auto p = std::make_unique<amulet>(pos);
+            addElementToGround(std::move(p));  
+        
+        }
+        else if(elem=='P') //Personnage
+        {
+            auto p = std::make_unique<adventurer>(pos);
+            addElementToGround(std::move(p));
+
+        }
+        else if(elem=='D') //Porte
+        {
+            auto p = std::make_unique<door>(pos);
+            addElementToGround(std::move(p));
+        }
+        else if(elem=='O') //Dehors
+        {
+            auto p = std::make_unique<outside>(pos);
+            addElementToGround(std::move(p));
+        }
+        else if(elem=='M') //Pieces
+        {
+            int val = aleatNumber(1,20);
+            auto p = std::make_unique<money>(pos,val);
+            addElementToGround(std::move(p));
+        }
+
+        cptc++;
+
+        if(cptc==nbcol)
+        {
+            cptc=0;
+            cptl++;
+        }
+
     }
+
+
+}
+
+void ground::exportGround()
+{
+    position p;
+    int nbElmt,indice;
+    char t;
+    std::ofstream fichier("Terrain.txt");
+    fichier<<d_nbLines<<" "<<d_nbColumns<<"\n";
+
+    for(int i=0;i<d_nbLines;i++)
+    {
+        for(int j=0; j<d_nbColumns;j++)
+        {
+            p={i,j};
+            indice = indicePos(p);
+            t = typeOf(indice);
+
+            fichier<<t<<" ";
+
+
+
+        }
+        fichier<<"\n";
+    }
+}
     
 
 
@@ -406,7 +403,6 @@ std::vector<int> ground::getIndicePos(const position &p) const
     return T;
 }
 
-//A UTILISER SEULEMENT SI ON EST SUR QU'IL YA AU PLUS UN SEUL ELMT A LA POS P
 int ground::indicePos(const position &p) const
 {
     int indice=0;
@@ -423,7 +419,7 @@ int ground::indicePos(const position &p) const
 
         indice++;
     }
-    return -1; //Si personne dans le tableau nest a cette pos
+    return -1; //Si personne dans le tableau n'est a cette pos
 
 }
 

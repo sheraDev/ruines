@@ -9,7 +9,6 @@
 #include "adventurer.h"
 #include "adventurerAttackManager.h"
 smartMonsterMoveManager::smartMonsterMoveManager(const position& p):movementManager{p}{}
-//smartMonsterMoveManager::smartMonsterMoveManager(ground &g,const position&pos):movementManager{g,pos}{}
 
 
 //UN MONSTRE INTELLIGENT SE DEPLACE DANS 4 DIRECTIONS: 2 4 6 ou 8
@@ -19,8 +18,7 @@ smartMonsterMoveManager::smartMonsterMoveManager(const position& p):movementMana
   8 
 */
 
-//RETURN LA NOUVELLE POSITION SELON LA DIRECTION
-//ok
+
 position smartMonsterMoveManager::directionPosition(int direction)
 {
     position p{};
@@ -84,7 +82,7 @@ int smartMonsterMoveManager::choixDirection(int d1,int d2,const ground &g)
     {
         direction = d1;
     }
-    else if(nbElem1<2 && nbElem2<2) //=> choix en fonction du type
+    else if(nbElem1<2 && nbElem2<2) // => choix en fonction du type
     {
         int i1=g.indicePos(p1); 
         int i2=g.indicePos(p2);
@@ -95,14 +93,6 @@ int smartMonsterMoveManager::choixDirection(int d1,int d2,const ground &g)
         if(t1=='W'|| t1=='B' ||t1=='S')  //1 ERE POS PAS LIBRE
         {    
             direction = d2;
-            /*if(t1=='W'|| t1=='B' ||t1=='S') //1ERE POS + 2 EME POS PAS LIBRE
-            {
-                direction = -1;
-            }
-            else //2 EME POS LIBRE
-            {
-                direction = d2;
-            }*/
         }
         else //1 ERE POS LIBRE
         {
@@ -113,12 +103,6 @@ int smartMonsterMoveManager::choixDirection(int d1,int d2,const ground &g)
     return direction;
 }
 
-
-
-
-
-//FONCTION UTILISEE SI L AVENTURIER EST A MOINS DE 8 CASES 
-//POUR SAVOIR OU IL DOIT SE DEPLACER
 
 
 position smartMonsterMoveManager::possiblePosition(ground&g) 
@@ -140,7 +124,6 @@ position smartMonsterMoveManager::possiblePosition(ground&g)
     //Le monstre est sur l'adv
     if(lineAdv==lineMonster && colMonster==colAdv)
     {
-        //std::cout<<"je cherche ou aller ! oh je suis suis sur l'adv ! \n";
         pos ={getPos().getLine(),getPos().getColumn()};
         return pos;
     }
@@ -273,9 +256,6 @@ position smartMonsterMoveManager::aleatoirePosition() //ground &g)
 void smartMonsterMoveManager::move(ground &g,int direction)
 {
     
-    
-
-
     // A LA MEME CASE QUE L'ADV : ATTAQUE 
     /*if(p.getLine()== getPos().getLine() && p.getColumn()==getPos().getColumn())
     {
@@ -338,47 +318,19 @@ void smartMonsterMoveManager::move(ground &g,int direction)
                 int indiceAdv = g.getIndiceAdventurer();
 
                 monster->changePosition(p);
-                //int indiceAdv = g.getIndiceAdventurer();
                 auto adv = dynamic_cast<adventurer*>(g.getElementsTable()[indiceAdv].get()) ;
                 
-
-                //AFFICHAGE DEBUGGAGE
-
-                //std::cout<<" LANCEMENT DE L ATTAQUE \n";
-               // std::cout<<"PV ARMURE AVANT ATTAQUE : "<< adv->getArmor().getSolidity()<<"\n";
-               // std::cout<<"PV ADVENTURER AVANR ATTAQUE : "<<adv->lifePoints()<<"\n";
-
 
                 //LE MONSTRE LANCE UNE ATTAQUE
                 monsterAttackManager mnstrAttackManager;//{adv}; //arg inutile
 
-                //std::cout<<"attention jv lancer mon attaque!\n";
                 double force = monster->attack(mnstrAttackManager);
 
                 // L'ADV RECOIT L ATTAQUE
                 adventurerAttackManager advAttackManager;//{monster};
                 bool mort = adv->receiveAttack(advAttackManager,force);
 
-                //SI L ADV MEURT
-                /*if(mort)
-                {
-                    g.removeElement(indiceAdv);
-                    //ARRETER LA PARTIE
-                }*/
-
-                //DEBUGGAGE
-                /*
-                std::cout<<" APRES  L ATTAQUE \n";
-                if(!mort){
-                std::cout<<"PV ARMURE APRES ATTAQUE : "<< adv->getArmor().getSolidity()<<"\n";
-                std::cout<<"PV ADVENTURER APRES ATTAQUE : "<<adv->lifePoints()<<"\n";
-                std::cout<<"PF DE L ATTAQUE : "<<force<<"\n";
-
-                }
-                else
-                {
-                    std::cout<<"L'adv est mort \n";
-                }*/
+                
             }
             //TT LES AUTRES CAS (amulet, monstre, mur) => NE BOUGE PAS
         }
@@ -388,7 +340,6 @@ void smartMonsterMoveManager::move(ground &g,int direction)
         position p{aleatoirePosition()};
         int nbElm= g.nbElmtsPos(p); 
 
-       // std::cout<<"je suis loin \n";
 
         //on verifie qu'on est bien dans le terrain et qu'il nya pas de bataille en cours a la position p
         
@@ -411,7 +362,6 @@ void smartMonsterMoveManager::move(ground &g,int direction)
             //SINON => amulet ou autre monstre ou mur=> reste à sa place
 
         }
-        //SINON = position en dehors du terrain ou bataille en cours=> le monstre reste à sa place
         
         
 

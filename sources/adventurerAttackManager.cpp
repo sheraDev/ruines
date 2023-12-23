@@ -11,9 +11,7 @@ adventurerAttackManager::adventurerAttackManager(){}
 
 
 double adventurerAttackManager::attack(groundElement *elem)
-{   
-    //std::cout<<"attaque ! \n";
-    
+{       
     auto adv=dynamic_cast<adventurer*>(elem);
    
     sword s = adv->getSword();
@@ -24,11 +22,9 @@ double adventurerAttackManager::attack(groundElement *elem)
     if(swordSolidity<=0)
     {
         force =0;
-       // std::cout<<"mince alors jveux attaquer mais jai plus de force dans lepee! \n";
     }
     else
     {
-       // std::cout<<"c carré jv attaquer et lepee est ok \n";
         force =adv->forcePoints() + swordSolidity;
         double randomnb = pickRandom();
 
@@ -46,9 +42,6 @@ double adventurerAttackManager::attack(groundElement *elem)
 
 bool adventurerAttackManager::receiveAttack(groundElement *elem,double force)
 {
-
-   // std::cout<<" je suis l'adv je Recoit attaque ! \n";
-
     auto adv=dynamic_cast<adventurer*>(elem);
     double reste;
     bool mort = false;
@@ -60,17 +53,12 @@ bool adventurerAttackManager::receiveAttack(groundElement *elem,double force)
 
         double nouvsol = armorSolidity - (0.5)*pfAbsorbesArmure;
 
-        //std::cout<<"je peux absj, je dois mtnt avoir ;"<<armorSolidity<<"-"<<(0.5)*pfAbsorbesArmure<<"="<<nouvsol<<"\n";
-
-
         adv->setArmorSolidity(nouvsol);
-       // std::cout<<"après abs, jai : "<<adv->getArmor().getSolidity()<<"\n";
         reste = 0.25*force;
        
     }
     else
     {
-       // std::cout<<"je peux pas abs \n";
         adv->setArmorSolidity(0);
         reste =  force - (2*armorSolidity);
     }
@@ -79,12 +67,10 @@ bool adventurerAttackManager::receiveAttack(groundElement *elem,double force)
     {
         adv->setLifePoints(0);
         mort = true;
-       // std::cout<<"mince alors je suis mort (adv)\n";
     }
     else
     {   double lp = adv->lifePoints();
         adv->setLifePoints(lp - reste);
-       // std::cout<<"jai perdu des pv!! \n";
     }
 
     return mort;
