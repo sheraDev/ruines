@@ -5,7 +5,7 @@
 #include "doctest.h"
 #include "adventurer.h"
 #include "position.h"
-#include "armor.h"
+#include "armory.h"
 #include "sword.h"
 
 TEST_CASE("Test de la classe adventurer")
@@ -46,20 +46,23 @@ TEST_CASE("Test de la classe adventurer")
     }
     SUBCASE("Enlever à la bourse")
     {
+        a.addToBourse(10);
         a.removeFromBourse(10);
         REQUIRE_EQ(a.getBourse(),0);
     }
     SUBCASE("Ajouter à la solidité de l'armure")
     {
+        int ancienneSol = a.getArmor().getSolidity();
         a.addToArmorSolidity(10);
-        int nouvSol = a.getArmor().getSolidity()+10;
-        REQUIRE_EQ(a.getArmor(),nouvSol);
+        int nouvSol = ancienneSol+10;
+        REQUIRE_EQ(a.getArmor().getSolidity(),nouvSol);
     }
     SUBCASE("Ajouter à la solidité de l'épée")
     {
+        int ancienneSol = a.getSword().getSolidity();
         a.addToSwordSolidity(10);
-        int nouvSol = a.getSword().getSolidity()+10;
-        REQUIRE_EQ(a.getSword(),nouvSol);
+        int nouvSol = ancienneSol+10;
+        REQUIRE_EQ(a.getSword().getSolidity(),nouvSol);
     }
 }
 

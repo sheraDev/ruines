@@ -283,7 +283,7 @@ void ground::importGround(std::istream &ist)
 
     int cptl=0; 
     int cptc=0;
-    setSize(nbl,nbcol);
+    setSize(nbcol,nbl);
 
     while(!ist.eof() && cptl<d_nbLines && cptc<d_nbColumns)
     {

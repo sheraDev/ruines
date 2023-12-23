@@ -54,10 +54,10 @@ TEST_CASE("Test de la classe smart monster move manager")
             position posAttendue = {p.getLine(),p.getColumn()+1};
             REQUIRE_EQ(posDir,posAttendue);
         }
-        SUBCASE("Test direction 8 (diagonale en bas droite)")
+        SUBCASE("Test direction 8 (en bas)")
         {
             position posDir = m.directionPosition(8);
-            position posAttendue = {p.getLine()+1, p.getColumn()+1};
+            position posAttendue = {p.getLine()+1, p.getColumn()};
             REQUIRE_EQ(posDir,posAttendue);
         }
 
@@ -82,16 +82,16 @@ TEST_CASE("Test de la classe smart monster move manager")
             // ajout de l'aventurier à la case 1,1
             position pAdv{1,1};
             auto p = std::make_unique<adventurer>( pAdv);
-            addElementToGround(std::move(p));
+            g.addElementToGround(std::move(p));
 
             //ajout d'un smart monster à la case 1,2
             position pMonstre{1,2};
             auto s = std::make_unique<smartMonster>(pMonstre);
-            addElementToGround(std::move(s));
+            g.addElementToGround(std::move(s));
 
             
             smartMonsterMoveManager smrtMv{pMonstre};
-            REQUIRE_EQ(smrtMv->isNearAdventurer(),true);
+            REQUIRE_EQ(smrtMv.isNearAdventurer(g),true);
         }
         SUBCASE("L'aventurier est loin")
         {
@@ -102,16 +102,16 @@ TEST_CASE("Test de la classe smart monster move manager")
             // ajout de l'aventurier à la case 0,0
             position pAdv{0,0};
             auto p = std::make_unique<adventurer>(pAdv);
-            addElementToGround(std::move(p));
+            g.addElementToGround(std::move(p));
 
             //ajout d'un smart monster à la case 9,9
             position pMonstre{9,9};
             auto s = std::make_unique<smartMonster>(pMonstre);
-            addElementToGround(std::move(s));
+            g.addElementToGround(std::move(s));
 
             
             smartMonsterMoveManager smrtMv{pMonstre};
-            REQUIRE_EQ(smrtMv->isNearAdventurer(),false);
+            REQUIRE_EQ(smrtMv.isNearAdventurer(g),false);
         }
         
     }

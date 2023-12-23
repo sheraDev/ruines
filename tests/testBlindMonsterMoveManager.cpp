@@ -41,12 +41,6 @@ TEST_CASE("Test de la classe blind monster move manager")
             position posAttendue = {p.getLine(),p.getColumn()-1};
             REQUIRE_EQ(posDir,posAttendue);
         }
-        SUBCASE("Test direction 5 (reste à sa place)")
-        {
-            position posDir = m.directionPosition(5);
-            position posAttendue = p;
-            REQUIRE_EQ(posDir,posAttendue);
-        }
         SUBCASE("Test direction 6 (droite)")
         {
             position posDir = m.directionPosition(6);
@@ -59,9 +53,15 @@ TEST_CASE("Test de la classe blind monster move manager")
             position posAttendue = {p.getLine()+1, p.getColumn()-1};
             REQUIRE_EQ(posDir,posAttendue);
         }
-        SUBCASE("Test direction 8 (diagonale en bas droite)")
+        SUBCASE("Test direction 8 (en bas)")
         {
             position posDir = m.directionPosition(8);
+            position posAttendue = {p.getLine()+1, p.getColumn()};
+            REQUIRE_EQ(posDir,posAttendue);
+        }
+        SUBCASE("Test direction 9 (diagonale en bas droite)")
+        {
+            position posDir = m.directionPosition(9);
             position posAttendue = {p.getLine()+1, p.getColumn()+1};
             REQUIRE_EQ(posDir,posAttendue);
         }

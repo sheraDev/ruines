@@ -39,10 +39,10 @@ TEST_CASE("Test de la classe ground")
         ground g;
         int nbl=10;
         int nbc=3;
-        g.setSize(10,3);
+        g.setSize(nbc,nbl);
 
-        REQUIRE_EQ(g.getNbLines(),10);
-        REQUIRE_EQ(g.getNbColumns(),3);
+        REQUIRE_EQ(g.getNbLines(),nbl);
+        REQUIRE_EQ(g.getNbColumns(),nbc);
 
     }
     SUBCASE("Test ajouter élément au ground")
@@ -229,8 +229,8 @@ TEST_CASE("Test de la classe ground")
     SUBCASE("Test générer un nombre aléatoire entre n1 et n2")
     {
         int n1=2,n2=14;
-        REQUIRE_GE(g.aleatNumber(), n1);
-        REQUIRE_LE(g.aleatNumber(), n2);
+        REQUIRE_GE(g.aleatNumber(n1,n2), n1);
+        REQUIRE_LE(g.aleatNumber(n1,n2), n2);
     }
     
 }

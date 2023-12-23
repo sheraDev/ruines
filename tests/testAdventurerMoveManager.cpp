@@ -73,9 +73,15 @@ TEST_CASE("Test de la classe adventurer move manager")
             position posAttendue = {p.getLine()+1, p.getColumn()-1};
             REQUIRE_EQ(posDir,posAttendue);
         }
-        SUBCASE("Test direction 8 (diagonale en bas droite)")
+        SUBCASE("Test direction 8 (en bas)")
         {
             position posDir = m.directionPosition(8);
+            position posAttendue = {p.getLine()+1, p.getColumn()};
+            REQUIRE_EQ(posDir,posAttendue);
+        }
+        SUBCASE("Test direction 9 (diagonale en bas droite)")
+        {
+            position posDir = m.directionPosition(9);
             position posAttendue = {p.getLine()+1, p.getColumn()+1};
             REQUIRE_EQ(posDir,posAttendue);
         }
@@ -98,42 +104,42 @@ TEST_CASE("Test de la classe adventurer move manager")
         //ajout d'un mur à la case 0,0
         position p0{0,0};
         auto m = std::make_unique<wall>(p0);
-        addElementToGround(std::move(m));
+        g.addElementToGround(std::move(m));
 
         //ajout d'une amulette à la case 0,1
         position p1{0,1};
         auto a = std::make_unique<amulet>(p1);
-        addElementToGround(std::move(a));    
+        g.addElementToGround(std::move(a));    
 
         //ajout d'un tas de pièce (valeur =10 par défaut) à la case 0,2    
-        position p2{0,1};
+        position p2{0,2};
         auto t = std::make_unique<money>(p2);
-        addElementToGround(std::move(p2));
+        g.addElementToGround(std::move(t));
 
         //ajout d'une case inaccesible à la case 1,0
         position p3{1,0};
         auto o = std::make_unique<outside>(p3);
-        addElementToGround(std::move(o));
+        g.addElementToGround(std::move(o));
 
         // ajout de l'aventurier à la case 1,1
         position p4{1,1};
         auto p = std::make_unique<adventurer>(p4);
-        addElementToGround(std::move(p));
+        g.addElementToGround(std::move(p));
 
         //ajout d'un smart monster à la case 1,2
         position p5{1,2};
         auto s = std::make_unique<smartMonster>(p5);
-        addElementToGround(std::move(s));
+        g.addElementToGround(std::move(s));
 
         //ajout d'un blind monster à la case 2,0
         position p6{2,0};
-        auto s = std::make_unique<smartMonster>(p6);
-        addElementToGround(std::move(s));
+        auto b = std::make_unique<blindMonster>(p6);
+        g.addElementToGround(std::move(b));
 
         //ajout d'une sortie à la case 2,1
         position p7{2,1};
         auto d = std::make_unique<door>(p7);
-        addElementToGround(std::move(d));
+        g.addElementToGround(std::move(d));
 
         //la case 2,2 est vide
 
@@ -195,7 +201,7 @@ TEST_CASE("Test de la classe adventurer move manager")
 
             //retourner au milieu du terrain
             adventurerMoveManager advMvv{nouvPosAdv};
-            adv.move(g,8);
+            advMvv.move(g,8);
         }
         SUBCASE("Test aller sur un smart monster") //doit aller en 1,2
         {
@@ -210,7 +216,7 @@ TEST_CASE("Test de la classe adventurer move manager")
 
             //retourner au milieu du terrain
             adventurerMoveManager advMvv{nouvPosAdv};
-            adv.move(g,4);
+            advMvv.move(g,4);
         }
         SUBCASE("Test aller sur un blind monster") //doit aller en 2,0
         {
@@ -225,7 +231,7 @@ TEST_CASE("Test de la classe adventurer move manager")
 
             //retourner au milieu du terrain
             adventurerMoveManager advMvv{nouvPosAdv};
-            adv.move(g,3);
+            advMvv.move(g,3);
         }
         SUBCASE("Test aller sur une case vide") //doit aller en 2,2
         {
@@ -240,7 +246,7 @@ TEST_CASE("Test de la classe adventurer move manager")
 
             //retourner au milieu du terrain
             adventurerMoveManager advMvv{nouvPosAdv};
-            adv.move(g,1);
+            advMvv.move(g,1);
         }
         SUBCASE("Test aller sur un tas de pièce") //doit aller en 0,2
         {
@@ -262,13 +268,15 @@ TEST_CASE("Test de la classe adventurer move manager")
 
             //retourner au milieu du terrain
             adventurerMoveManager advMvv{nouvPosAdv};
-            adv.move(g,7);
+            advMvv.move(g,7);
         }
 
 
 
 
     }
+
+
     
 }
 
