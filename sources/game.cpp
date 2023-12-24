@@ -34,8 +34,15 @@ int game::choixView()
    {
     std::cout<<" Quel type d'interface voulez vous ?\n 1- Affichage texte\n 2- Affichage coloré\n\n > ";
     std::cin>>choix;
+
+    if (!std::cin.good()) 
+    {
+            std::cout << " Veuillez entrer un nombre\n\n";
+            std::cin.clear(); 
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+    }
     
-   } while (!(choix==1 || choix==2));
+   } while (!std::cin.good() ||!(choix==1 || choix==2));
    
     
     return choix;
@@ -70,8 +77,15 @@ void game::chargerGround(ground &g)
     {
         std::cout<<" Comment voulez-vous construire le terrain ? \n 1- Construire manuellement\n 2- Importer depuis un fichier\n\n > ";
         std::cin>>choix;
+
+        if (!std::cin.good()) 
+        {
+            std::cout << " Veuillez entrer un nombre\n\n";
+            std::cin.clear(); 
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+        }
     }
-    while(!(choix==1||choix==2));
+    while(!std::cin.good() ||   !(choix==1||choix==2));
 
     switch (choix)
     {
@@ -82,7 +96,14 @@ void game::chargerGround(ground &g)
         do{
             std::cout<<" Voulez vous sauvegarder le terrain dans un fichier ? O/N :";
             std::cin>>rep;
-        }while(!(rep=='O'||rep=='N'));
+
+            if (!std::cin.good()) 
+            {
+                std::cout << " Veuillez entrer une lettre\n\n";
+                std::cin.clear(); 
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+            }
+        }while(!std::cin.good() || !(rep=='O'||rep=='N'));
         if(rep=='O')
         {
             g.exportGround();
@@ -172,8 +193,15 @@ void game::play()
             do
             {
                 std::cout<<" Que voulez vous faire ? \n 1) Utiliser la bourse \n 2) Me déplacer \n\n > "; std::cin>>rep;
+
+                if (!std::cin.good()) 
+                {
+                    std::cout << " Veuillez entrer un nombre\n\n";
+                    std::cin.clear(); 
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+                }
             } 
-            while (!(rep==1||rep==2));
+            while (!std::cin.good() || !(rep==1||rep==2));
 
             if(rep==1) //utiliser la bourse
             {
@@ -195,8 +223,15 @@ void game::play()
                         std::cout<<"\n\n Entrer la direction où vous souhaitez aller: \n";
                         std::cout<<" 1 2 3\n 4 ⑤ 6\n 7 8 9\n > ";
                         std::cin >>direction;
+
+                        if (!std::cin.good()) 
+                        {
+                            std::cout << " Veuillez entrer un nombre\n\n";
+                            std::cin.clear(); 
+                            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+                        }   
                     }
-                    while(!(direction==1 || direction==2 || direction==3 || direction==4||direction==5||direction==6||direction==7 ||direction==8 ||direction==9));
+                    while(!std::cin.good() ||!(direction==1 || direction==2 || direction==3 || direction==4||direction==5||direction==6||direction==7 ||direction==8 ||direction==9));
                     clear();
 
                     position posAdv = g.getAdventurerPosition();
@@ -276,13 +311,27 @@ void game::useBourse(adventurer *adv)
     {
         std::cout<<" Vous avez "<<montantBourse<<" pieces.\n Entrer le montant que vous voulez utiliser : ";
         std::cin>>montantVoulu;
-    }while(montantVoulu<=0 || montantVoulu>montantBourse);
+
+        if (!std::cin.good()) 
+        {
+            std::cout << " Veuillez entrer un nombre\n\n";
+            std::cin.clear(); 
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+        }
+    }while(!std::cin.good() || montantVoulu<=0 || montantVoulu>montantBourse);
 
     do
     {
         std::cout<<"\n Que voulez vous réparer ? \n 1) Armure \n 2) Epee \n\n > ";
         std::cin>>choixRep;
-    } while (!(choixRep==1 || choixRep==2));
+
+        if (!std::cin.good()) 
+        {
+            std::cout << " Veuillez entrer un nombre\n\n";
+            std::cin.clear(); 
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+        }
+    } while (!std::cin.good() || !(choixRep==1 || choixRep==2));
 
     if(choixRep==1) //Réparer armure
     {

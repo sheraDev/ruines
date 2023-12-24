@@ -196,10 +196,17 @@ void ground::buildGround()   //creer un terrain manuellement
 
     int c,li;
     do{
-        cout<<"Enter a number of columns : \n"; cin>>c;  
-        cout<<"Enter a numer of lines : "; cin>>li;  
+        cout<<" Enter a number of columns : \n"; cin>>c;  
+        cout<<" Enter a numer of lines : "; cin>>li; 
+        
+        if (!std::cin.good()) 
+        {
+            std::cout << " \n Veuillez entrer un entier\n\n";
+            std::cin.clear(); 
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+        } 
     }
-    while(c<=0 || li<=0);
+    while(!std::cin.good() || c<=0 || li<=0);
 
     d_nbColumns=c;
     d_nbLines=li;
@@ -216,7 +223,14 @@ void ground::buildGround()   //creer un terrain manuellement
             do{
                 cout<<"Enter a caracter for the position "<<i<<","<<j<<":";
                 cin >>l;
-            }while (!(l=='S' || l=='B' || l=='W'|| l=='E'||l=='A'|| l=='P' || l=='D'||l=='O' || l=='M'));
+
+                if (!std::cin.good()) 
+                {
+                        std::cout << " Veuillez entrer une lettre\n\n";
+                        std::cin.clear(); 
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+                }
+            }while (!std::cin.good() || !(l=='S' || l=='B' || l=='W'|| l=='E'||l=='A'|| l=='P' || l=='D'||l=='O' || l=='M'));
 
             position pos{i,j};
 
