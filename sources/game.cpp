@@ -32,7 +32,7 @@ int game::choixView()
    int choix;
    do
    {
-    std::cout<<" Quel type d'interface voulez vous ?\n 1-Affichage texte\n 2-Affichage emoji\n";
+    std::cout<<" Quel type d'interface voulez vous ?\n 1- Affichage texte\n 2- Affichage coloré\n\n > ";
     std::cin>>choix;
     
    } while (!(choix==1 || choix==2));
@@ -68,7 +68,7 @@ void game::chargerGround(ground &g)
     std::string nomFic;
     do
     {
-        std::cout<<" Comment voulez-vous construire le terrain ? \n 1-Construire manuellement\n 2-Importer depuis un fichier\n";
+        std::cout<<" Comment voulez-vous construire le terrain ? \n 1- Construire manuellement\n 2- Importer depuis un fichier\n\n > ";
         std::cin>>choix;
     }
     while(!(choix==1||choix==2));
@@ -93,7 +93,7 @@ void game::chargerGround(ground &g)
     case 2:
     std::ifstream fic;
         do{
-            std::cout<<" Entrer le nom du fichier :"; std::cin>>nomFic;
+            std::cout<<" Entrer le nom du fichier : "; std::cin>>nomFic;
             fic.open(nomFic.c_str()); 
         } while (!fic.is_open()); 
         g.importGround(fic);
@@ -142,7 +142,7 @@ void game::play()
     chargerGround(g);
     clear() ;                
     rules();
-    std::cout<<" Appuyez sur entrée pour continuer ...\n";
+    std::cout<<" Appuyez sur entrée pour continuer ...";
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //vider le tampn
     std::cin.get();
     clear() ;                
@@ -193,7 +193,7 @@ void game::play()
             {
                     do{
                         std::cout<<"\n\n Entrer la direction où vous souhaitez aller: \n";
-                        std::cout<<" 1 2 3\n 4 ⑤ 6\n 7 8 9\n ";
+                        std::cout<<" 1 2 3\n 4 ⑤ 6\n 7 8 9\n\n> ";
                         std::cin >>direction;
                     }
                     while(!(direction==1 || direction==2 || direction==3 || direction==4||direction==5||direction==6||direction==7 ||direction==8 ||direction==9));
@@ -246,7 +246,7 @@ void game::play()
                 //AFFICHAGE DES POINTS DE L'ADV
                 afficherInfosAdv(adv);
 
-                std::cout<<" Appuyez sur entrée pour continuer ...\n";
+                std::cout<<" Appuyez sur entrée pour continuer ...";
                 std::cin.get();
                 clear() ;                
                 tour++;
