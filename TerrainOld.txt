@@ -1,0 +1,12 @@
+10 10
+S E E A E E E W W W
+E E E P E A M E E O
+B E E B D E E W E D
+E O O O E E S E E E
+E E O O O E O O O E
+S E E A E E E W W W
+E E E E E A M E E O
+B E E B D E E W E D
+E O O O E E S E E E
+E E O O O E O O O E
+

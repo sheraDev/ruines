@@ -171,7 +171,7 @@ void game::play()
 
             do
             {
-                std::cout<<" Que voulez vous faire ? \n 1)Utiliser la bourse \n 2)Me déplacer \n"; std::cin>>rep;
+                std::cout<<" Que voulez vous faire ? \n 1) Utiliser la bourse \n 2) Me déplacer \n\n > "; std::cin>>rep;
             } 
             while (!(rep==1||rep==2));
 
@@ -193,13 +193,12 @@ void game::play()
             {
                     do{
                         std::cout<<"\n\n Entrer la direction où vous souhaitez aller: \n";
-                        std::cout<<" 1 2 3\n 4 ⑤ 6\n 7 8 9\n\n> ";
+                        std::cout<<" 1 2 3\n 4 ⑤ 6\n 7 8 9\n > ";
                         std::cin >>direction;
                     }
                     while(!(direction==1 || direction==2 || direction==3 || direction==4||direction==5||direction==6||direction==7 ||direction==8 ||direction==9));
+                    clear();
 
-                    clear() ;                
-            
                     position posAdv = g.getAdventurerPosition();
                     adventurerMoveManager advMover{posAdv};
                     advMover.move(g,direction);
@@ -217,6 +216,7 @@ void game::play()
                     }
                     else
                     {
+                        g.display(v);
                         std::cout<< "Vous avez gagné ! \n";
                         break;
                     }
@@ -253,7 +253,7 @@ void game::play()
             }
             else
             {
-                std::cout<<"Vous etes mort.Fin de la partie \n";
+                std::cout<<"Vous êtes mort ! Fin de la partie ... \n";
                 partie= false;
             }
             
@@ -274,13 +274,13 @@ void game::useBourse(adventurer *adv)
     int choixRep;
     do
     {
-        std::cout<<" Vous avez : "<<montantBourse<<" pieces.Entrer le montant que vous voulez utiliser : ";
+        std::cout<<" Vous avez "<<montantBourse<<" pieces.\n Entrer le montant que vous voulez utiliser : ";
         std::cin>>montantVoulu;
     }while(montantVoulu<=0 || montantVoulu>montantBourse);
 
     do
     {
-        std::cout<<" Que voulez vous réparer ? \n 1)Armure \n 2)Epee \n";
+        std::cout<<"\n Que voulez vous réparer ? \n 1) Armure \n 2) Epee \n\n > ";
         std::cin>>choixRep;
     } while (!(choixRep==1 || choixRep==2));
 
@@ -288,13 +288,13 @@ void game::useBourse(adventurer *adv)
     {
         adv->addToArmorSolidity(montantVoulu);
         adv->removeFromBourse(montantVoulu);
-        std::cout<<" Votre armure a maintenant : "<<adv->getArmor().getSolidity()<<" points.\n";
+        std::cout<<" Votre armure a maintenant "<<adv->getArmor().getSolidity()<<" points.\n";
     }
     else if(choixRep==2) //Réparer épée
     {
         adv->addToSwordSolidity(montantVoulu);
         adv->removeFromBourse(montantVoulu);
-        std::cout<<" Votre épee a maintenant : "<<adv->getSword().getSolidity()<<" points.\n";
+        std::cout<<" Votre épee a maintenant "<<adv->getSword().getSolidity()<<" points.\n";
     }
 
 }
