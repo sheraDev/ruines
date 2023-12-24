@@ -1,13 +1,13 @@
-#ifndef EMOTVIEW_H_INCLUDED
-#define EMOTVIEW_H_INCLUDED
+#ifndef colorView_H_INCLUDED
+#define colorView_H_INCLUDED
 #include <iostream>
 #include "viewManager.h"
 
 
-class emotView : public viewManager
+class colorView : public viewManager
 {
     public:
-        emotView();
+        colorView();
         void displayAdventurer(const adventurer &adv) const override;
         void displayGround(const ground &g) const override;
         void displayWall(const wall &w) const override;

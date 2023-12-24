@@ -1,4 +1,4 @@
-#include "emotView.h"
+#include "colorView.h"
 #include "adventurer.h"
 #include "amulet.h"
 #include "wall.h"
@@ -8,47 +8,47 @@
 #include "termcolor.h"
 using std::cout;
 
-emotView::emotView(){}
+colorView::colorView(){}
 
-void emotView::displayAdventurer(const adventurer &adv) const
+void colorView::displayAdventurer(const adventurer &adv) const
 {
     cout<<termcolor::on_color<78, 88, 65> <<" $ ";
 }
 
 
-void emotView::displayWall(const wall &w) const
+void colorView::displayWall(const wall &w) const
 {
     cout << termcolor::on_color<70, 64, 9> << "   " << termcolor::reset;
 }
 
-void emotView::displayAmulet(const amulet &a) const
+void colorView::displayAmulet(const amulet &a) const
 {
     cout<<termcolor::color<185, 63, 215><<termcolor::on_color<78, 88, 65> <<" * "<< termcolor::reset;// 🗝 ";
 }
 
-void emotView::displayMonster(const monster &m) const
+void colorView::displayMonster(const monster &m) const
 {
     cout<<termcolor::color<21, 8, 75><<termcolor::on_color<78, 88, 65> <<" M "<< termcolor::reset; //♟
 }
 
-void emotView::displayDoor(const door &d) const
+void colorView::displayDoor(const door &d) const
 {
     cout<<termcolor::color<240, 230, 140><<termcolor::on_color<78, 88, 65> <<" ^ "<< termcolor::reset;
 }
 
-void emotView::displayOutside(const outside &o) const 
+void colorView::displayOutside(const outside &o) const 
 {
     cout<<termcolor::on_color<125, 27, 27> <<"   "<< termcolor::reset;
 }
 
-void emotView::displayMoney(const money &m) const
+void colorView::displayMoney(const money &m) const
 {
     cout<<termcolor::green<<termcolor::on_color<78, 88, 65> <<" € "<< termcolor::reset;
 }
 
 
 
-void emotView::displayGround(const ground &g) const
+void colorView::displayGround(const ground &g) const
 {
 
     position p;

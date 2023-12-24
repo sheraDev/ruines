@@ -2,7 +2,7 @@
 #include "ground.h"
 #include "groundElement.h"
 #include "CLIView.h"
-#include "emotView.h"
+#include "colorView.h"
 #include "adventurerMoveManager.h"
 #include "character.h"
 #include "smartMonster.h"
@@ -51,7 +51,7 @@ std::unique_ptr<viewManager> game::createView(int choix)
     }
     else if(choix==2)
     {
-        auto v=std::make_unique<emotView>();
+        auto v=std::make_unique<colorView>();
         return v;
     }
     else
