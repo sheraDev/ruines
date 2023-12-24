@@ -2,6 +2,7 @@
 #include "ground.h"
 #include "groundElement.h"
 #include "CLIView.h"
+#include "emotView.h"
 #include "adventurerMoveManager.h"
 #include "character.h"
 #include "smartMonster.h"
@@ -31,10 +32,10 @@ int game::choixView()
    int choix;
    do
    {
-    std::cout<<" Quel type d'interface voulez vous ?\n 1-Ligne de commandes\n";
+    std::cout<<" Quel type d'interface voulez vous ?\n 1-Affichage texte\n 2-Affichage emoji\n";
     std::cin>>choix;
     
-   } while (!(choix==1));
+   } while (!(choix==1 || choix==2));
    
     
     return choix;
@@ -46,6 +47,11 @@ std::unique_ptr<viewManager> game::createView(int choix)
     if(choix==1)
     {
         auto v=std::make_unique<CLIView>();
+        return v;
+    }
+    else if(choix==2)
+    {
+        auto v=std::make_unique<emotView>();
         return v;
     }
     else
