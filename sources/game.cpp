@@ -302,13 +302,14 @@ void game::useBourse(adventurer *adv)
 
 
 std::vector<monster*> game::deplacerMonstres(ground&g)
-{
+{ 
     std::vector<monster*> tabMonstres;
+
     for(int i=0;i<g.getElementsTable().size();i++)
     {   
 
         if(g.typeOf(i)=='S') //SMART MONSTER
-        {
+        {   
             auto monster = dynamic_cast<smartMonster*>(g.getElementsTable()[i].get());
             position posMonster = monster->getPosition();
             smartMonsterMoveManager monsterMover{posMonster};
@@ -321,7 +322,7 @@ std::vector<monster*> game::deplacerMonstres(ground&g)
 
         }
         else if(g.typeOf(i)=='B') //MONSTRE AVEUGLE
-        {
+        {   
             auto monster = dynamic_cast<blindMonster*>(g.getElementsTable()[i].get());
             position posMonster =monster->getPosition();
             blindMonsterMoveManager monsterMover{posMonster};

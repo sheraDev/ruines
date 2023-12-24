@@ -337,30 +337,28 @@ void smartMonsterMoveManager::move(ground &g,int direction)
     }
     else{ //LE MONSTRE = + DE 8 CASES = déplacement aléatoire
 
+
         position p{aleatoirePosition()};
         int nbElm= g.nbElmtsPos(p); 
-
 
         //on verifie qu'on est bien dans le terrain et qu'il nya pas de bataille en cours a la position p
         
         if(nbElm<2 && p.getColumn()<g.getNbColumns()&& p.getColumn()>=0 && p.getLine()<g.getNbLines() && p.getLine()>=0) 
         {
 
-            int indice = g.indicePos(p);
+            int indice = g.indicePos(p); 
             char t = g.typeOf(indice);
-            auto monster = g.getElementsTable()[indice].get();
+
+            int indiceMonstre = g.getIndiceElmt(getPos(),'S');
+            auto monster = g.getElementsTable()[indiceMonstre].get(); 
+
+            
 
             if(t=='E') // CASE VIDE => LE MONSTRE Y VA
             {
                 monster->changePosition(p);
             }
-            else if(t=='A') //AVENTURIER => LE MONSTRE L ATTAQUE
-            {
-                monster->changePosition(p);
-                //APPELER GESTIONNAIRE ATTAQUE
-            }
-            //SINON => amulet ou autre monstre ou mur=> reste à sa place
-
+            
         }
         
         
