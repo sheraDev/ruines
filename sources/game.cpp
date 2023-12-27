@@ -25,6 +25,17 @@
 
 game::game(){}
 
+void game::gererErreurSaisie()
+{
+    if (!std::cin.good()) 
+    {
+        std::cout << "\n Veuillez entrer un caractère valide\n\n";
+        std::cin.clear(); 
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+    }
+}
+
+
 
 
 int game::choixView()
@@ -35,12 +46,7 @@ int game::choixView()
     std::cout<<" Quel type d'interface voulez vous ?\n 1- Affichage texte\n 2- Affichage coloré\n\n > ";
     std::cin>>choix;
 
-    if (!std::cin.good()) 
-    {
-            std::cout << " Veuillez entrer un nombre\n\n";
-            std::cin.clear(); 
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-    }
+    gererErreurSaisie();
     
    } while (!std::cin.good() ||!(choix==1 || choix==2));
    
@@ -78,12 +84,7 @@ void game::chargerGround(ground &g)
         std::cout<<" Comment voulez-vous construire le terrain ? \n 1- Construire manuellement\n 2- Importer depuis un fichier\n\n > ";
         std::cin>>choix;
 
-        if (!std::cin.good()) 
-        {
-            std::cout << " Veuillez entrer un nombre\n\n";
-            std::cin.clear(); 
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-        }
+        gererErreurSaisie();
     }
     while(!std::cin.good() ||   !(choix==1||choix==2));
 
@@ -97,17 +98,13 @@ void game::chargerGround(ground &g)
             std::cout<<" Voulez vous sauvegarder le terrain dans un fichier ? O/N :";
             std::cin>>rep;
 
-            if (!std::cin.good()) 
-            {
-                std::cout << " Veuillez entrer une lettre\n\n";
-                std::cin.clear(); 
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-            }
+            gererErreurSaisie();
+        
         }while(!std::cin.good() || !(rep=='O'||rep=='N'));
         if(rep=='O')
         {
             g.exportGround();
-            std::cout<<" Fichier sauvegardé avec succès \n";
+            std::cout<<" \n Fichier sauvegardé avec succès \n";
         }
         break;
     
@@ -139,7 +136,10 @@ void game::clear()
 void game::rules()
 {
     std::cout<<"\n +-+-+-+-+-+-+-+-+-+-+-+-+-+ REGLES DU JEU +-+-+-+-+-+-+-+-+-+-+-+-+-+\n\n";
-    std::cout<<"\n Vous devez récupérer l'amulette et réussir à atteindre la sortie en vie. \n Vous croiserez des monstres sur votre chemin que vous devrez combattre avec \n votre épée. Vous trouverez des tas de pièces qui vous permettront de réparer \n votre équipement. Vous pouvez vous déplacer dans les 9 directions ou rester \n à votre place. \n Les smart monster se dirigeront vers vous tandis que les blind monster se\n déplacent au hasard. \n\n NB:\n -Vous ne pouvez pas vous déplacer dans un mur ni dans une case extérieure,\n et vous ne pouvez pas sortir sans l'amulette.\n -Lors d'une bataille, vous pouvez continuer à vous battre en restant à la \n meme case ou fuir. \n\n A vous de jouer !\n\n";}
+    std::cout<<"\n Vous devez récupérer l'amulette et réussir à atteindre la sortie en vie. \n Vous croiserez des monstres sur votre chemin que vous devrez combattre avec \n votre épée. Vous trouverez des tas de pièces qui vous permettront de réparer \n votre équipement. Vous pouvez vous déplacer dans les 9 directions ou rester \n à votre place. \n Les smart monster se dirigeront vers vous tandis que les blind monster se\n déplacent au hasard. \n\n NB:\n -Vous ne pouvez pas vous déplacer dans un mur ni dans une case extérieure,\n et vous ne pouvez pas sortir sans l'amulette.\n -Lors d'une bataille, vous pouvez continuer à vous battre en restant à la \n meme case ou fuir. \n\n A vous de jouer !\n\n";
+}
+
+
 
 void game::play() 
 {
@@ -183,7 +183,6 @@ void game::play()
         int indiceAdv = g.getIndiceAdventurer();
         auto adv= dynamic_cast<adventurer*>(g.getElementsTable()[indiceAdv].get());
 
-        //AJT
         int rep;
         int depl=0;
 
@@ -194,12 +193,7 @@ void game::play()
             {
                 std::cout<<" Que voulez vous faire ? \n 1) Utiliser la bourse \n 2) Me déplacer \n\n > "; std::cin>>rep;
 
-                if (!std::cin.good()) 
-                {
-                    std::cout << " Veuillez entrer un nombre\n\n";
-                    std::cin.clear(); 
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-                }
+                gererErreurSaisie();
             } 
             while (!std::cin.good() || !(rep==1||rep==2));
 
@@ -223,13 +217,7 @@ void game::play()
                         std::cout<<"\n\n Entrer la direction où vous souhaitez aller: \n";
                         std::cout<<" 1 2 3\n 4 ⑤ 6\n 7 8 9\n > ";
                         std::cin >>direction;
-
-                        if (!std::cin.good()) 
-                        {
-                            std::cout << " Veuillez entrer un nombre\n\n";
-                            std::cin.clear(); 
-                            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-                        }   
+                        gererErreurSaisie();
                     }
                     while(!std::cin.good() ||!(direction==1 || direction==2 || direction==3 || direction==4||direction==5||direction==6||direction==7 ||direction==8 ||direction==9));
                     clear();
@@ -312,12 +300,8 @@ void game::useBourse(adventurer *adv)
         std::cout<<" Vous avez "<<montantBourse<<" pieces.\n Entrer le montant que vous voulez utiliser : ";
         std::cin>>montantVoulu;
 
-        if (!std::cin.good()) 
-        {
-            std::cout << " Veuillez entrer un nombre\n\n";
-            std::cin.clear(); 
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-        }
+        gererErreurSaisie();
+
     }while(!std::cin.good() || montantVoulu<=0 || montantVoulu>montantBourse);
 
     do
@@ -325,12 +309,8 @@ void game::useBourse(adventurer *adv)
         std::cout<<"\n Que voulez vous réparer ? \n 1) Armure \n 2) Epee \n\n > ";
         std::cin>>choixRep;
 
-        if (!std::cin.good()) 
-        {
-            std::cout << " Veuillez entrer un nombre\n\n";
-            std::cin.clear(); 
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-        }
+        gererErreurSaisie();
+       
     } while (!std::cin.good() || !(choixRep==1 || choixRep==2));
 
     if(choixRep==1) //Réparer armure
@@ -425,7 +405,7 @@ void game::afficherInfosMonstresProches(const std::vector<monster*> &tabMonstres
         std::cout<<tabMonstres[i]->getPosition().getLine()<<"         ";
         std::cout<<tabMonstres[i]->getPosition().getColumn()<<"          ";
 
-        //type
+    
         if(dynamic_cast<blindMonster*>(tabMonstres[i]))
         {
             std::cout<<"Blind Monster"<<"      ";

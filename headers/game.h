@@ -27,6 +27,8 @@ class game
      std::vector<monster*> deplacerMonstres(ground&g);
      void startDisplay();
      void rules();
+
+     void gererErreurSaisie();
 };
 
 

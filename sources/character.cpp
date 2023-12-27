@@ -38,8 +38,3 @@ bool character::receiveAttack(attackManager &attackManag,double force)
     bool mort = attackManag.receiveAttack(this,force);
     return mort;
 }
-
-void character::move(movementManager &movManager,ground &g,int direction)
-{
-    movManager.move(g,direction);
-}

@@ -14,6 +14,8 @@ class monster : public character
         void display(const viewManager& view) const override;
         double getHability() const;
         bool isAtOneCaseAdv(ground &g);
+
+
     private:
         double d_hability;
    

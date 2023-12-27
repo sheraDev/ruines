@@ -10,14 +10,11 @@
 
 
 
-//adventurerMoveManager::adventurerMoveManager(const position& p, int direction):movementManager{p,direction}{}
 adventurerMoveManager::adventurerMoveManager(const position&pos):movementManager{pos}{}
 
 //nouvelle position après deplacement
 position adventurerMoveManager::directionPosition(int direction)
 {
-
-
     position p{};
     switch (direction)
     {
@@ -62,15 +59,12 @@ position adventurerMoveManager::directionPosition(int direction)
         break;
     }
 
-    
-
     return p;
 }
 
 
 
-
-void adventurerMoveManager::move(ground&g,int direction)//(ground &g)
+void adventurerMoveManager::move(ground&g,int direction)
 {  
     position nouvPos{directionPosition(direction)};
 
@@ -151,7 +145,7 @@ void adventurerMoveManager::move(ground&g,int direction)//(ground &g)
 
             int val = moneyPtr->getValue();
 
-           g.removeElement(indice); //suppr le tas de pièces de la case
+           g.removeElement(indice); //supprimer le tas de pièces de la case
            adv->changePosition(nouvPos);
            adv->addToBourse(val);            
 

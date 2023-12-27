@@ -60,7 +60,7 @@ void CLIView::displayGround(const ground &g) const
         {
             p={i,j};
             nbElmt = g.nbElmtsPos(p);
-            if(nbElmt==0) // AUCUN ELEMENT
+            if(nbElmt==0) 
             {
                 cout<<"  .  ";
             }

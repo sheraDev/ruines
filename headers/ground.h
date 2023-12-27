@@ -67,10 +67,10 @@ class ground
         double aleatDouble() const;
 
     private:
+    
         int d_nbLines; 
         int d_nbColumns; 
-
-      std::vector<std::unique_ptr<groundElement>> d_groundElementsTab;
+        std::vector<std::unique_ptr<groundElement>> d_groundElementsTab;
 
 };
 

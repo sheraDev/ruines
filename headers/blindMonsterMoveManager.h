@@ -13,7 +13,6 @@ class blindMonsterMoveManager : public movementManager
         void move(ground &g,int direction=0) override;
         int directionAleatoire() const;
 
-
 };
 
 

@@ -71,9 +71,6 @@ int smartMonsterMoveManager::choixDirection(int d1,int d2,const ground &g)
    int nbElem1 = g.nbElmtsPos(p1);
    int nbElem2 = g.nbElmtsPos(p2);
 
-    //Dans le ground il nya qu'une seule position ou il peut yavoir 2 personnes 
-    //(le monstre qui se bat avec l'aventurier)
-
     if(nbElem1>1) //plus qu'une personne en d1 => il ny va pas
     {
         direction = d2;
@@ -256,41 +253,14 @@ position smartMonsterMoveManager::aleatoirePosition() //ground &g)
 void smartMonsterMoveManager::move(ground &g,int direction)
 {
     
-    // A LA MEME CASE QUE L'ADV : ATTAQUE 
-    /*if(p.getLine()== getPos().getLine() && p.getColumn()==getPos().getColumn())
-    {
-        int indiceMonstre = g.getIndiceElmt(p,'S');
-
-
-        auto monster = dynamic_cast<smartMonster*>(g.getElementsTable()[indiceMonstre].get());
-        auto adv = dynamic_cast<adventurer*>(g.getElementsTable()[indiceAdv].get()) ;
-        
-        monsterAttackManager mnstrAttackManager;
-        double force = monster->attack(mnstrAttackManager);
-
-        // L'ADV RECOIT L ATTAQUE
-        adventurerAttackManager advAttackManager;
-        bool mort = adv->receiveAttack(advAttackManager,force);
-
-        //SI L ADV MEURT
-        if(mort)
-        {
-            g.removeElement(indiceAdv);
-            //ARRETER LA PARTIE
-        }
-        return;
-    }*/
     if(isNearAdventurer(g)) // SI MONSTRE = -8 CASES AVENTURIER
     {
         position p{possiblePosition(g)};
 
-         //on verifie qu'on est bien dans le terrain 
         if(p.getColumn()!=-1 && p.getLine()!=-1 && p.getColumn()<g.getNbColumns() && p.getLine()<g.getNbLines()) 
         {   
-
-            //int indiceMonstre = g.indicePos(getPos());
             int indiceMonstre = g.getIndiceElmt(getPos(),'S');
-            int indice = g.indicePos(p);   //indice = -1 si la case est vide
+            int indice = g.indicePos(p);   
 
             if(g.nbElmtsPos(p)==2)
             {
@@ -322,17 +292,16 @@ void smartMonsterMoveManager::move(ground &g,int direction)
                 
 
                 //LE MONSTRE LANCE UNE ATTAQUE
-                monsterAttackManager mnstrAttackManager;//{adv}; //arg inutile
+                monsterAttackManager mnstrAttackManager;
 
                 double force = monster->attack(mnstrAttackManager);
 
                 // L'ADV RECOIT L ATTAQUE
-                adventurerAttackManager advAttackManager;//{monster};
+                adventurerAttackManager advAttackManager;
                 bool mort = adv->receiveAttack(advAttackManager,force);
 
                 
             }
-            //TT LES AUTRES CAS (amulet, monstre, mur) => NE BOUGE PAS
         }
     }
     else{ //LE MONSTRE = + DE 8 CASES = déplacement aléatoire
@@ -340,8 +309,6 @@ void smartMonsterMoveManager::move(ground &g,int direction)
 
         position p{aleatoirePosition()};
         int nbElm= g.nbElmtsPos(p); 
-
-        //on verifie qu'on est bien dans le terrain et qu'il nya pas de bataille en cours a la position p
         
         if(nbElm<2 && p.getColumn()<g.getNbColumns()&& p.getColumn()>=0 && p.getLine()<g.getNbLines() && p.getLine()>=0) 
         {

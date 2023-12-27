@@ -5,8 +5,6 @@
 amulet::amulet(const position &p):groundElement{p}{}
 
 
-
-
 void amulet::display(const viewManager& view) const
 {
     view.displayAmulet(*this);

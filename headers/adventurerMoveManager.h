@@ -9,10 +9,6 @@ class adventurerMoveManager : public movementManager
         adventurerMoveManager(const position&pos);
         void move(ground &g,int direction) override;
         position directionPosition(int direction) override;
-
-    
-
-
 };
 
 

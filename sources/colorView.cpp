@@ -47,7 +47,6 @@ void colorView::displayMoney(const money &m) const
 }
 
 
-
 void colorView::displayGround(const ground &g) const
 {
 
@@ -80,6 +79,7 @@ void colorView::displayGround(const ground &g) const
         }
         cout<<"\n";
     }
+
     cout << termcolor::bold << "\n Code :\n " << termcolor::reset 
          << termcolor::bold << termcolor::on_color<78, 88, 65> << " $ " << termcolor::reset << ": vous | " 
          << termcolor::bold << termcolor::on_color<78, 88, 65> << termcolor::color<21, 8, 75> << " M " << termcolor::reset << ": monster   | "
